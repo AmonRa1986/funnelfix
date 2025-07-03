@@ -69,6 +69,14 @@
         .progress-bar {
             transition: width 0.3s ease;
         }
+        .cta-button {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -81,10 +89,20 @@
             <p class="text-xl md:text-2xl mb-6 opacity-90">
                 Discover Your Conversion Score in 3 Minutes
             </p>
-            <div class="bg-white bg-opacity-20 rounded-lg p-4 inline-block">
+            <div class="bg-white bg-opacity-20 rounded-lg p-4 inline-block mb-6">
                 <p class="text-lg">
                     <i class="fas fa-users mr-2"></i>
                     <strong>2,847+</strong> businesses have improved their funnels with this audit
+                </p>
+            </div>
+            
+            <!-- Primary CTA in Header -->
+            <div class="mt-8">
+                <button id="skip-to-booking" class="cta-button bg-white text-purple-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all mr-4 mb-4 md:mb-0">
+                    📞 Skip Audit - Book FREE Review Now
+                </button>
+                <p class="text-sm opacity-75 mt-2">
+                    Or take the 3-minute audit below to get your personalized score first
                 </p>
             </div>
         </div>
@@ -171,6 +189,20 @@
                         </p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Secondary CTA After Instructions -->
+            <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg p-6 text-center mb-8">
+                <h3 class="text-xl font-bold mb-2">Need Help Right Away?</h3>
+                <p class="mb-4 opacity-90">
+                    Skip the audit and get a personalized funnel review with actionable insights
+                </p>
+                <button id="skip-to-booking-2" class="cta-button bg-white text-purple-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all">
+                    📞 Book Your FREE 15-Minute Funnel Review
+                </button>
+                <p class="text-sm mt-3 opacity-75">
+                    No sales pitch • Actionable insights guaranteed • Available today
+                </p>
             </div>
 
             <!-- Audit Sections -->
@@ -491,6 +523,24 @@
 
             </div>
 
+            <!-- Mid-Audit CTA -->
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 my-8 rounded-r-lg">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-start">
+                        <i class="fas fa-lightbulb text-yellow-400 text-xl mr-3 mt-1"></i>
+                        <div>
+                            <h3 class="text-lg font-semibold text-yellow-800 mb-2">Seeing Issues Already?</h3>
+                            <p class="text-yellow-700">
+                                Don't wait for your score - get expert help fixing these problems right now.
+                            </p>
+                        </div>
+                    </div>
+                    <button id="mid-audit-cta" class="cta-button bg-yellow-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-yellow-700 transition-all whitespace-nowrap ml-4">
+                        Get Help Now
+                    </button>
+                </div>
+            </div>
+
             <!-- Results Section -->
             <div id="results-section" class="mt-12 bg-white rounded-lg shadow-lg p-8 border-2 border-gray-200" style="display: none;">
                 <div class="text-center mb-8">
@@ -520,7 +570,7 @@
                     <p class="text-lg mb-6 opacity-90">
                         Get a personalized funnel review and custom action plan to boost your conversions
                     </p>
-                    <button id="book-review-btn" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors pulse-animation">
+                    <button id="book-review-btn" class="cta-button bg-white text-blue-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all pulse-animation">
                         📞 Book Your FREE Funnel Review
                     </button>
                     <p class="text-sm mt-4 opacity-75">
@@ -588,6 +638,11 @@
             document.getElementById('download-pdf').addEventListener('click', downloadPDF);
             document.getElementById('book-review-btn').addEventListener('click', bookReview);
             document.getElementById('book-now-urgent').addEventListener('click', bookReview);
+            
+            // New CTA button event listeners
+            document.getElementById('skip-to-booking').addEventListener('click', bookReview);
+            document.getElementById('skip-to-booking-2').addEventListener('click', bookReview);
+            document.getElementById('mid-audit-cta').addEventListener('click', bookReview);
 
             // Start timer
             startTimer();
