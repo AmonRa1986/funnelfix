@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Funnel Audit - Discover Your Conversion Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .score-circle {
+            background: conic-gradient(#10b981 0deg, #10b981 var(--percentage), #e5e7eb var(--percentage));
+        }
+        .checkbox-custom {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .checkbox-custom:checked {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+        .checkbox-custom:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .section-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .section-card.completed {
+            border-left-color: #10b981;
+            background-color: #f0fdf4;
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .timer-warning {
+            animation: flash 1s infinite;
+        }
+        @keyframes flash {
+            0%, 50% { background-color: #fef2f2; }
+            51%, 100% { background-color: #fee2e2; }
+        }
+        .timer-critical {
+            animation: flashRed 0.5s infinite;
+        }
+        @keyframes flashRed {
+            0%, 50% { background-color: #dc2626; color: white; }
+            51%, 100% { background-color: #ef4444; color: white; }
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        .cta-button {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                🎯 Free Funnel Audit
+            </h1>
+            <p class="text-xl md:text-2xl mb-6 opacity-90">
+                Discover Your Conversion Score in 3 Minutes
+            </p>
+            <div class="bg-white bg-opacity-20 rounded-lg p-4 inline-block mb-6">
+                <p class="text-lg">
+                    <i class="fas fa-users mr-2"></i>
+                    <strong>2,847+</strong> businesses have improved their funnels with this audit
+                </p>
+            </div>
+            
+            <!-- Primary CTA in Header -->
+            <div class="mt-8">
+                <button id="skip-to-booking" class="cta-button bg-white text-purple-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all mr-4 mb-4 md:mb-0">
+                    📞 Skip Audit - Book FREE Review Now
+                </button>
+                <p class="text-sm opacity-75 mt-2">
+                    Or take the 3-minute audit below to get your personalized score first
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Timer & Score Dashboard -->
+    <div class="bg-white shadow-lg sticky top-0 z-50 border-b">
+        <div class="container mx-auto px-4 py-4">
+            <!-- Timer Section -->
+            <div id="timer-section" class="text-center mb-4 p-3 rounded-lg bg-blue-50 border border-blue-200">
+                <div class="flex items-center justify-center space-x-4">
+                    <i class="fas fa-clock text-blue-600 text-xl"></i>
+                    <div>
+                        <p class="text-sm text-blue-700 font-medium">Complete your audit in:</p>
+                        <div id="timer-display" class="text-2xl font-bold text-blue-800">3:00</div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-blue-600">Progress</p>
+                        <div class="w-24 bg-blue-200 rounded-full h-2">
+                            <div id="progress-bar" class="progress-bar bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="flex items-center space-x-6 mb-4 md:mb-0">
+                    <div class="relative">
+                        <div class="w-16 h-16 rounded-full score-circle flex items-center justify-center" style="--percentage: 0deg;">
+                            <span id="score-display" class="text-2xl font-bold text-gray-800">0</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Your Funnel Score</h3>
+                        <p id="score-status" class="text-gray-600">Complete the audit to see your score</p>
+                    </div>
+                </div>
+                <div class="flex space-x-4">
+                    <button id="copy-results" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50" disabled>
+                        <i class="fas fa-copy mr-2"></i>Copy Results
+                    </button>
+                    <button id="download-pdf" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50" disabled>
+                        <i class="fas fa-download mr-2"></i>Download PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time's Up Modal -->
+    <div id="times-up-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg p-8 max-w-md w-full text-center">
+                <div class="text-6xl mb-4">⏰</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Time's Almost Up!</h2>
+                <p class="text-gray-600 mb-6">
+                    Don't worry - it looks like your funnel needs some serious help. 
+                    Let's get you the personalized review you need.
+                </p>
+                <div id="grace-timer" class="text-3xl font-bold text-red-600 mb-6">60</div>
+                <button id="book-now-urgent" class="bg-red-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors pulse-animation w-full">
+                    📞 Book Your FREE Funnel Review Now
+                </button>
+                <p class="text-sm text-gray-500 mt-4">
+                    This window will auto-redirect in <span id="grace-countdown">60</span> seconds
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            
+            <!-- Instructions -->
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-6 mb-8 rounded-r-lg">
+                <div class="flex items-start">
+                    <i class="fas fa-info-circle text-blue-400 text-xl mr-3 mt-1"></i>
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-800 mb-2">How This Works</h3>
+                        <p class="text-blue-700">
+                            Check each box that applies to your current funnel. Your score will update in real-time. 
+                            Complete the audit to get personalized recommendations and book a free strategy call.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secondary CTA After Instructions -->
+            <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg p-6 text-center mb-8">
+                <h3 class="text-xl font-bold mb-2">Need Help Right Away?</h3>
+                <p class="mb-4 opacity-90">
+                    Skip the audit and get a personalized funnel review with actionable insights
+                </p>
+                <button id="skip-to-booking-2" class="cta-button bg-white text-purple-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all">
+                    📞 Book Your FREE 15-Minute Funnel Review
+                </button>
+                <p class="text-sm mt-3 opacity-75">
+                    No sales pitch • Actionable insights guaranteed • Available today
+                </p>
+            </div>
+
+            <!-- Audit Sections -->
+            <div class="space-y-8">
+                <!-- Traffic & Targeting -->
+                <div class="section-card bg-white rounded-lg shadow-md p-6" data-section="traffic">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                            <i class="fas fa-bullseye text-blue-600 mr-3"></i>
+                            Traffic & Targeting
+                        </h2>
+                        <div class="bg-gray-100 px-3 py-1 rounded-full">
+                            <span class="section-score text-sm font-semibold">0/20</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Clear Target Audience (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Your funnel speaks to ONE specific audience with specific problems</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Traffic Source Alignment (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Your traffic source matches your audience's preferred platforms</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Message-Market Match (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Your headline addresses your audience's #1 pain point immediately</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Mobile Optimization (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Funnel loads fast and looks perfect on mobile devices</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Hook & Headlines -->
+                <div class="section-card bg-white rounded-lg shadow-md p-6" data-section="hook
