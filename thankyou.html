@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Your Funnel Review is Confirmed!</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .success-animation {
+            animation: successPulse 2s ease-in-out infinite;
+        }
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .package-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .package-card.featured {
+            border: 3px solid #10b981;
+            transform: scale(1.05);
+        }
+        .package-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-weight: bold;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .urgency-timer {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            animation: urgencyPulse 2s infinite;
+        }
+        @keyframes urgencyPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .value-highlight {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .testimonial-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+    </style>
+    
+    <!-- Conversion Tracking -->
+    <script>
+        // Google Analytics Event Tracking
+        function trackConversion(eventName, packageName = '', value = 0) {
+            // Google Analytics 4
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, {
+                    'event_category': 'Conversion',
+                    'event_label': packageName,
+                    'value': value
+                });
+            }
+            
+            // Facebook Pixel
+            if (typeof fbq !== 'undefined') {
+                fbq('track', eventName, {
+                    content_name: packageName,
+                    value: value,
+                    currency: 'USD'
+                });
+            }
+            
+            // Custom tracking
+            console.log('Conversion tracked:', eventName, packageName, value);
+        }
+        
+        // Track page view
+        document.addEventListener('DOMContentLoaded', function() {
+            trackConversion('ThankYouPageView');
+        });
+    </script>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Success Confirmation -->
+    <div class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <div class="success-animation inline-block w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mb-6">
+                <i class="fas fa-check text-4xl text-white"></i>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                🎉 You're All Set!
+            </h1>
+            
+            <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
+                Your FREE funnel review call with <strong>Shomari Hines</strong> is confirmed!
+            </p>
+            
+            <div id="audit-score-display" class="bg-white bg-opacity-20 rounded-lg p-4 inline-block mb-6 hidden">
+                <p class="text-lg">
+                    <i class="fas fa-chart-line mr-2"></i>
+                    Your Funnel Score: <span id="score-value">0</span>/130
+                </p>
+            </div>
+            
+            <div class="bg-white bg-opacity-20 rounded-lg p-6 inline-block mb-8">
+                <h3 class="text-2xl font-bold mb-4">What Happens Next:</h3>
+                <div class="grid md:grid-cols-3 gap-6 text-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-calendar-check mr-3 text-2xl text-green-300"></i>
+                        <span>Calendar invite sent</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-search mr-3 text-2xl text-blue-300"></i>
+                        <span>Funnel pre-analysis</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-rocket mr-3 text-2xl text-yellow-300"></i>
+                        <span>Custom action plan</span>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-lg opacity-75">
+                Check your email for the calendar invite and call details
+            </p>
+        </div>
+    </div>
+
+    <!-- Meet Shomari Section -->
+    <div class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-bold text-gray-800 mb-6">
+                            Meet <span class="text-blue-600">Shomari Hines</span><br>
+                            <span class="text-2xl text-gray-600">Your Marketing Solutions Freelancer</span>
+                        </h2>
+                        
+                        <div class="space-y-4 text-lg text-gray-700 mb-8">
+                            <p class="flex items-start">
+                                <i class="fas fa-trophy text-yellow-500 mr-3 mt-1"></i>
+                                <span><strong>2,847+ businesses</strong> have transformed their funnels with Shomari's proven strategies</span>
+                            </p>
+                            <p class="flex items-start">
+                                <i class="fas fa-chart-line text-green-500 mr-3 mt-1"></i>
+                                <span><strong>Average 300% ROI increase</strong> within the first 90 days of implementation</span>
+                            </p>
+                            <p class="flex items-start">
+                                <i class="fas fa-lightbulb text-blue-500 mr-3 mt-1"></i>
+                                <span><strong>Innovative approach</strong> combining AI-powered strategies with human psychology</span>
+                            </p>
+                            <p class="flex items-start">
+                                <i class="fas fa-users text-purple-500 mr-3 mt-1"></i>
+                                <span><strong>Culture innovation expert</strong> helping teams build sustainable growth habits</span>
+                            </p>
+                        </div>
+                        
+                        <div class="bg-blue-50 rounded-lg p-6">
+                            <h4 class="font-bold text-gray-800 mb-3">
+                                <i class="fas fa-quote-left text-blue-500 mr-2"></i>
+                                Shomari's Philosophy:
+                            </h4>
+                            <p class="text-gray-700 italic">
+                                "Every business deserves a funnel that converts like crazy AND a culture that attracts top talent. 
+                                I don't just fix your marketing—I transform how your entire team thinks about growth."
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="relative inline-block">
+                            <img src="https://images.unsplash.com/photo-1506794778202-7931692c7dd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Shomari Hines" class="w-80 h-80 rounded-full object-cover mx-auto mb-6">
+                            <div class="absolute -bottom-4 -right-4 bg-green-500 text-white rounded-full w-16 h-16 flex items-center justify-center">
+                                <i class="fas fa-check text-2xl"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mt-8">
+                            <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-blue-600">5+ Years</div>
+                                <div class="text-sm text-gray-600">Experience</div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-green-600">98%</div>
+                                <div class="text-sm text-gray-600">Success Rate</div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-purple-600">$50M+</div>
+                                <div class="text-sm text-gray-600">Generated</div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                <div class="text-2xl font-bold text-orange-600">24/7</div>
+                                <div class="text-sm text-gray-600">Support</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Limited Time Offer Banner -->
+    <div class="urgency-timer text-white py-4">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-4">
+                <i class="fas fa-clock text-2xl"></i>
+                <span class="text-lg font-bold">SPECIAL OFFER: Book any package in the next 24 hours and save 25%!</span>
+                <div id="countdown-timer" class="bg-white bg-opacity-20 px-4 py-2 rounded-lg font-mono text-xl">
+                    23:59:45
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Package Showcase -->
+    <div class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">
+                    Ready to Get Started <span class="text-blue-600">Right Now?</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Why wait for the call? Many clients know exactly what they need. 
+                    Choose your package and start transforming your business today!
+                </p>
+                <div class="mt-6 inline-block bg-yellow-100 border border-yellow-300 rounded-lg px-6 py-3">
+                    <p class="text-yellow-800 font-semibold">
+                        <i class="fas fa-gift mr-2"></i>
+                        Book now and get your funnel review call included FREE as a bonus!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Marketing Packages -->
+            <div class="mb-16">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">
+                    🚀 Marketing Growth Packages
+                </h3>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Starter Package -->
+                    <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
+                        <div class="text-blue-600 text-4xl mb-4">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Funnel Starter</h4>
+                        <div class="text-3xl font-bold text-gray-800 mb-1">
+                            <span class="line-through text-gray-400 text-xl">$2,497</span>
+                        </div>
+                        <div class="text-4xl font-bold text-green-600 mb-4">
+                            $1,873
+                        </div>
+                        <p class="text-gray-600 mb-6">Perfect for new businesses ready to launch their first high-converting funnel</p>
+                        
+                        <ul class="text-left space-y-2 mb-6 text-sm">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Landing page optimization</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Email sequence setup</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Basic analytics tracking</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>2 weeks support</span>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="selectPackage('Funnel Starter', 1873)" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                            Get Started Now
+                        </button>
+                        <p class="text-xs text-gray-500 mt-2">14-day delivery</p>
+                    </div>
+
+                    <!-- Growth Package -->
+                    <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
+                        <div class="text-green-600 text-4xl mb-4">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Growth Accelerator</h4>
+                        <div class="text-3xl font-bold text-gray-800 mb-1">
+                            <span class="line-through text-gray-400 text-xl">$4,997</span>
+                        </div>
+                        <div class="text-4xl font-bold text-green-600 mb-4">
+                            $3,748
+                        </div>
+                        <p class="text-gray-600 mb-6">For businesses ready to scale with advanced funnel strategies</p>
+                        
+                        <ul class="text-left space-y-2 mb-6 text-sm">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Complete funnel rebuild</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Advanced email automation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>A/B testing setup</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>30 days support</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>ROI tracking dashboard</span>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="selectPackage('Growth Accelerator', 3748)" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                            Accelerate Growth
+                        </button>
+                        <p class="text-xs text-gray-500 mt-2">21-day delivery</p>
+                    </div>
+
+                    <!-- Scale Package - Featured -->
+                    <div class="package-card featured bg-white rounded-lg shadow-lg p-6 text-center pt-12">
+                        <div class="text-purple-600 text-4xl mb-4">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Scale Master</h4>
+                        <div class="text-3xl font-bold text-gray-800 mb-1">
+                            <span class="line-through text-gray-400 text-xl">$9,997</span>
+                        </div>
+                        <div class="text-4xl font-bold text-green-600 mb-4">
+                            $7,498
+                        </div>
+                        <p class="text-gray-600 mb-6">Complete marketing transformation for serious businesses</p>
+                        
+                        <ul class="text-left space-y-2 mb-6 text-sm">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Multi-funnel ecosystem</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>AI-powered optimization</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Team training included</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>90 days VIP support</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Monthly strategy calls</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Culture innovation bonus</span>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="selectPackage('Scale Master', 7498)" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                            Scale to 7-Figures
+                        </button>
+                        <p class="text-xs text-gray-500 mt-2">30-day delivery</p>
+                    </div>
+
+                    <!-- Enterprise Package -->
+                    <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
+                        <div class="text-orange-600 text-4xl mb-4">
+                            <i class="fas fa-building"></i>
+                        </div
