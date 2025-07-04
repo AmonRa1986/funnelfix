@@ -67,6 +67,7 @@
     <script>
         // Google Analytics Event Tracking
         function trackConversion(eventName, packageName = '', value = 0) {
+            // Google Analytics 4
             if (typeof gtag !== 'undefined') {
                 gtag('event', eventName, {
                     'event_category': 'Conversion',
@@ -75,6 +76,7 @@
                 });
             }
             
+            // Facebook Pixel
             if (typeof fbq !== 'undefined') {
                 fbq('track', eventName, {
                     content_name: packageName,
@@ -83,39 +85,13 @@
                 });
             }
             
+            // Custom tracking
             console.log('Conversion tracked:', eventName, packageName, value);
         }
         
         // Track page view
         document.addEventListener('DOMContentLoaded', function() {
             trackConversion('ThankYouPageView');
-            
-            // Display audit score from URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const score = urlParams.get('score');
-            const completed = urlParams.get('completed');
-            
-            if (score) {
-                const scoreDisplay = document.getElementById('audit-score-display');
-                const scoreValue = document.getElementById('score-value');
-                scoreDisplay.classList.remove('hidden');
-                scoreValue.textContent = score;
-                
-                if (completed === 'true') {
-                    scoreDisplay.innerHTML += '<p class="text-sm text-white mt-2">Great job completing the audit! Let’s discuss how to optimize your funnel.</p>';
-                } else {
-                    scoreDisplay.innerHTML += '<p class="text-sm text-white mt-2">You didn’t finish the audit, but we can still help. Let’s discuss on your call!</p>';
-                }
-            }
-
-            // Log image loading for debugging
-            const avatarImg = document.querySelector('img[alt="Shomari Hines"]');
-            avatarImg.addEventListener('error', function() {
-                console.error('Failed to load avatar.jpg. Check file path, name, or upload status.');
-            });
-            avatarImg.addEventListener('load', function() {
-                console.log('avatar.jpg loaded successfully.');
-            });
         });
     </script>
 </head>
@@ -135,13 +111,6 @@
             <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
                 Your FREE funnel review call with <strong>Shomari Hines</strong> is confirmed!
             </p>
-            
-            <div id="audit-score-display" class="bg-white bg-opacity-20 rounded-lg p-4 inline-block mb-6 hidden">
-                <p class="text-lg">
-                    <i class="fas fa-chart-line mr-2"></i>
-                    Your Funnel Score: <span id="score-value">0</span>/130
-                </p>
-            </div>
             
             <div class="bg-white bg-opacity-20 rounded-lg p-6 inline-block mb-8">
                 <h3 class="text-2xl font-bold mb-4">What Happens Next:</h3>
@@ -211,7 +180,7 @@
                     
                     <div class="text-center">
                         <div class="relative inline-block">
-                            <img src="images/avatar.jpg" alt="Shomari Hines" class="w-80 h-80 rounded-full object-cover mx-auto mb-6" onerror="this.src='https://images.unsplash.com/photo-1506794778202-7931692c7dd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';">
+                            <img src="avatar.jpg" alt="Shomari Hines" class="w-80 h-80 rounded-full object-cover mx-auto mb-6">
                             <div class="absolute -bottom-4 -right-4 bg-green-500 text-white rounded-full w-16 h-16 flex items-center justify-center">
                                 <i class="fas fa-check text-2xl"></i>
                             </div>
@@ -772,6 +741,7 @@
             selectedPackage = packageName;
             selectedPrice = price;
             
+            // Track package selection
             trackConversion('PackageSelected', packageName, price);
             
             showPackageSelector();
@@ -786,18 +756,27 @@
         }
         
         function proceedToCheckout() {
+            // Track conversion
             trackConversion('ProceedToCheckout', selectedPackage, selectedPrice);
             
+            // Here you would integrate with your payment processor
+            // For now, we'll show an alert
             alert(`Proceeding to checkout for ${selectedPackage} - $${selectedPrice.toLocaleString()}`);
+            
+            // Redirect to payment page or open payment modal
+            // window.location.href = '/checkout?package=' + encodeURIComponent(selectedPackage) + '&price=' + selectedPrice;
         }
         
         function scheduleConsultation() {
+            // Track consultation scheduling
             trackConversion('ScheduleConsultation', selectedPackage, 0);
             
             closeModal();
             
+            // Scroll to top or show confirmation
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
+            // Show confirmation message
             const confirmationDiv = document.createElement('div');
             confirmationDiv.className = 'fixed top-4 right-4 bg-blue-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 max-w-sm';
             confirmationDiv.innerHTML = `
