@@ -67,7 +67,6 @@
     <script>
         // Google Analytics Event Tracking
         function trackConversion(eventName, packageName = '', value = 0) {
-            // Google Analytics 4
             if (typeof gtag !== 'undefined') {
                 gtag('event', eventName, {
                     'event_category': 'Conversion',
@@ -76,7 +75,6 @@
                 });
             }
             
-            // Facebook Pixel
             if (typeof fbq !== 'undefined') {
                 fbq('track', eventName, {
                     content_name: packageName,
@@ -85,13 +83,39 @@
                 });
             }
             
-            // Custom tracking
             console.log('Conversion tracked:', eventName, packageName, value);
         }
         
         // Track page view
         document.addEventListener('DOMContentLoaded', function() {
             trackConversion('ThankYouPageView');
+            
+            // Display audit score from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const score = urlParams.get('score');
+            const completed = urlParams.get('completed');
+            
+            if (score) {
+                const scoreDisplay = document.getElementById('audit-score-display');
+                const scoreValue = document.getElementById('score-value');
+                scoreDisplay.classList.remove('hidden');
+                scoreValue.textContent = score;
+                
+                if (completed === 'true') {
+                    scoreDisplay.innerHTML += '<p class="text-sm text-white mt-2">Great job completing the audit! Let’s discuss how to optimize your funnel.</p>';
+                } else {
+                    scoreDisplay.innerHTML += '<p class="text-sm text-white mt-2">You didn’t finish the audit, but we can still help. Let’s discuss on your call!</p>';
+                }
+            }
+
+            // Log image loading for debugging
+            const avatarImg = document.querySelector('img[alt="Shomari Hines"]');
+            avatarImg.addEventListener('error', function() {
+                console.error('Failed to load avatar.jpg. Check file path, name, or upload status.');
+            });
+            avatarImg.addEventListener('load', function() {
+                console.log('avatar.jpg loaded successfully.');
+            });
         });
     </script>
 </head>
@@ -187,7 +211,7 @@
                     
                     <div class="text-center">
                         <div class="relative inline-block">
-                            <img src="https://images.unsplash.com/photo-1506794778202-7931692c7dd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Shomari Hines" class="w-80 h-80 rounded-full object-cover mx-auto mb-6">
+                            <img src="avatar.jpg" alt="Shomari Hines" class="w-80 h-80 rounded-full object-cover mx-auto mb-6" onerror="this.src='https://images.unsplash.com/photo-1506794778202-7931692c7dd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';">
                             <div class="absolute -bottom-4 -right-4 bg-green-500 text-white rounded-full w-16 h-16 flex items-center justify-center">
                                 <i class="fas fa-check text-2xl"></i>
                             </div>
@@ -389,4 +413,443 @@
                     <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
                         <div class="text-orange-600 text-4xl mb-4">
                             <i class="fas fa-building"></i>
-                        </div
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Enterprise</h4>
+                        <div class="text-4xl font-bold text-gray-800 mb-4">
+                            Custom Quote
+                        </div>
+                        <p class="text-gray-600 mb-6">Tailored solutions for large organizations and unique requirements</p>
+                        
+                        <ul class="text-left space-y-2 mb-6 text-sm">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Custom strategy development</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Dedicated account manager</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Priority support</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Unlimited revisions</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>White-label options</span>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="selectPackage('Enterprise', 0)" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                            Get Custom Quote
+                        </button>
+                        <p class="text-xs text-gray-500 mt-2">Timeline varies</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Culture Innovation Packages -->
+            <div class="mb-16">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">
+                    🎯 Culture Innovation Packages
+                </h3>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Culture Starter -->
+                    <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
+                        <div class="text-blue-600 text-4xl mb-4">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Culture Starter</h4>
+                        <div class="text-3xl font-bold text-gray-800 mb-1">
+                            <span class="line-through text-gray-400 text-xl">$1,997</span>
+                        </div>
+                        <div class="text-4xl font-bold text-green-600 mb-4">
+                            $1,498
+                        </div>
+                        <p class="text-gray-600 mb-6">Build innovation habits that stick</p>
+                        
+                        <ul class="text-left space-y-2 mb-6 text-sm">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Team assessment</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Innovation framework</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Weekly idea sessions</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>30 days implementation</span>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="selectPackage('Culture Starter', 1498)" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                            Start Innovation
+                        </button>
+                    </div>
+
+                    <!-- Culture Growth -->
+                    <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
+                        <div class="text-green-600 text-4xl mb-4">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Culture Growth</h4>
+                        <div class="text-3xl font-bold text-gray-800 mb-1">
+                            <span class="line-through text-gray-400 text-xl">$3,997</span>
+                        </div>
+                        <div class="text-4xl font-bold text-green-600 mb-4">
+                            $2,998
+                        </div>
+                        <p class="text-gray-600 mb-6">Transform your team dynamics</p>
+                        
+                        <ul class="text-left space-y-2 mb-6 text-sm">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Complete culture audit</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Leadership training</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Innovation KPI tracking</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>60 days support</span>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="selectPackage('Culture Growth', 2998)" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                            Transform Culture
+                        </button>
+                    </div>
+
+                    <!-- Culture Mastery -->
+                    <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
+                        <div class="text-purple-600 text-4xl mb-4">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Culture Mastery</h4>
+                        <div class="text-3xl font-bold text-gray-800 mb-1">
+                            <span class="line-through text-gray-400 text-xl">$7,997</span>
+                        </div>
+                        <div class="text-4xl font-bold text-green-600 mb-4">
+                            $5,998
+                        </div>
+                        <p class="text-gray-600 mb-6">Build a magnetic company culture</p>
+                        
+                        <ul class="text-left space-y-2 mb-6 text-sm">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Complete transformation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Talent attraction system</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Innovation lab setup</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>90 days VIP support</span>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="selectPackage('Culture Mastery', 5998)" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                            Master Culture
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social Proof Section -->
+    <div class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">
+                What Clients Say About Working with Shomari
+            </h3>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="testimonial-card rounded-lg p-6">
+                    <div class="flex text-yellow-500 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "Shomari didn't just fix our funnel - he transformed our entire approach to marketing. 
+                        Revenue increased 400% in 3 months, and our team is more motivated than ever!"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
+                            JM
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800">Jennifer Martinez</p>
+                            <p class="text-sm text-gray-600">CEO, TechStart Solutions</p>
+                            <p class="text-sm text-green-600 font-semibold">Scale Master Client</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card rounded-lg p-6">
+                    <div class="flex text-yellow-500 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "The culture innovation package was a game-changer. We went from high turnover 
+                        to having a waitlist of people wanting to work here. ROI was immediate!"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
+                            DR
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800">David Rodriguez</p>
+                            <p class="text-sm text-gray-600">Founder, Local Pro Services</p>
+                            <p class="text-sm text-purple-600 font-semibold">Culture Mastery Client</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card rounded-lg p-6">
+                    <div class="flex text-yellow-500 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic">
+                        "Best investment we ever made. Shomari's strategies are cutting-edge, 
+                        and his support is unmatched. We're now the market leader in our space!"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
+                            SK
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800">Sarah Kim</p>
+                            <p class="text-sm text-gray-600">Director, Online Academy</p>
+                            <p class="text-sm text-blue-600 font-semibold">Growth Accelerator Client</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final CTA Section -->
+    <div class="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-6">
+                Don't Wait - Your Competition Won't
+            </h2>
+            <p class="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+                Every day you delay is market share your competitors are gaining. 
+                Join the 2,847+ businesses already dominating their markets with Shomari's strategies.
+            </p>
+            
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white bg-opacity-20 rounded-lg p-6">
+                    <div class="text-3xl font-bold mb-2">24 Hours</div>
+                    <div class="text-lg">25% Discount Expires</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-6">
+                    <div class="text-3xl font-bold mb-2">5 Spots</div>
+                    <div class="text-lg">Remaining This Month</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-6">
+                    <div class="text-3xl font-bold mb-2">100%</div>
+                    <div class="text-lg">Satisfaction Guarantee</div>
+                </div>
+            </div>
+            
+            <button onclick="showPackageSelector()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold py-4 px-8 rounded-lg text-xl transition-colors mb-4">
+                <i class="fas fa-rocket mr-2"></i>
+                Choose Your Package Now
+            </button>
+            
+            <p class="text-lg opacity-75">
+                Or keep your scheduled call - we'll discuss which package fits best
+            </p>
+        </div>
+    </div>
+
+    <!-- Package Selection Modal -->
+    <div id="package-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-6">
+            <div class="text-center">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Ready to Get Started?</h3>
+                <p class="text-gray-600 mb-6">Choose how you'd like to proceed:</p>
+                
+                <div class="space-y-4">
+                    <button onclick="proceedToCheckout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                        <i class="fas fa-credit-card mr-2"></i>
+                        Book Selected Package Now
+                    </button>
+                    
+                    <button onclick="scheduleConsultation()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                        <i class="fas fa-calendar mr-2"></i>
+                        Discuss on Scheduled Call
+                    </button>
+                    
+                    <button onclick="closeModal()" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg transition-colors">
+                        I'll Decide Later
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400 mb-4">
+                © 2025 Shomari Hines - Marketing Solutions Freelancer. 
+                Transforming businesses through innovative marketing and culture strategies.
+            </p>
+            <div class="flex justify-center space-x-6">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fab fa-linkedin text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fab fa-twitter text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fab fa-facebook text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let selectedPackage = null;
+        let selectedPrice = 0;
+        
+        // Countdown timer
+        function startCountdown() {
+            let timeLeft = 24 * 60 * 60; // 24 hours in seconds
+            
+            const timer = setInterval(() => {
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                
+                document.getElementById('countdown-timer').textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                timeLeft--;
+                
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    document.getElementById('countdown-timer').textContent = 'EXPIRED';
+                }
+            }, 1000);
+        }
+        
+        function selectPackage(packageName, price) {
+            selectedPackage = packageName;
+            selectedPrice = price;
+            
+            trackConversion('PackageSelected', packageName, price);
+            
+            showPackageSelector();
+        }
+        
+        function showPackageSelector() {
+            document.getElementById('package-modal').classList.remove('hidden');
+        }
+        
+        function closeModal() {
+            document.getElementById('package-modal').classList.add('hidden');
+        }
+        
+        function proceedToCheckout() {
+            trackConversion('ProceedToCheckout', selectedPackage, selectedPrice);
+            
+            alert(`Proceeding to checkout for ${selectedPackage} - $${selectedPrice.toLocaleString()}`);
+        }
+        
+        function scheduleConsultation() {
+            trackConversion('ScheduleConsultation', selectedPackage, 0);
+            
+            closeModal();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            const confirmationDiv = document.createElement('div');
+            confirmationDiv.className = 'fixed top-4 right-4 bg-blue-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 max-w-sm';
+            confirmationDiv.innerHTML = `
+                <div class="flex items-start">
+                    <i class="fas fa-calendar-check mr-3 mt-1 text-xl"></i>
+                    <div>
+                        <p class="font-bold">Perfect!</p>
+                        <p class="text-sm opacity-90">We'll discuss the ${selectedPackage} package on your scheduled call.</p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(confirmationDiv);
+            
+            setTimeout(() => {
+                confirmationDiv.remove();
+            }, 5000);
+        }
+        
+        // Initialize countdown on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            startCountdown();
+        });
+        
+        // Track scroll depth for engagement
+        let maxScroll = 0;
+        window.addEventListener('scroll', function() {
+            const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+            if (scrollPercent > maxScroll) {
+                maxScroll = scrollPercent;
+                if (maxScroll >= 25 && maxScroll < 50) {
+                    trackConversion('ScrollDepth25');
+                } else if (maxScroll >= 50 && maxScroll < 75) {
+                    trackConversion('ScrollDepth50');
+                } else if (maxScroll >= 75) {
+                    trackConversion('ScrollDepth75');
+                }
+            }
+        });
+        
+        // Track time on page
+        let timeOnPage = 0;
+        setInterval(() => {
+            timeOnPage += 30;
+            if (timeOnPage === 60) {
+                trackConversion('TimeOnPage60s');
+            } else if (timeOnPage === 180) {
+                trackConversion('TimeOnPage3min');
+            } else if (timeOnPage === 300) {
+                trackConversion('TimeOnPage5min');
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
