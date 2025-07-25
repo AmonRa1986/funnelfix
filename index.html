@@ -723,17 +723,26 @@
                 ];
             } else {
                 analysis = `
-                    <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
-                        <h4 class="text-lg font-semibold text-green-800 mb-2">🏆 Customer Magnet (${totalScore}/90)</h4>
-                        <p class="text-green-700">Excellent! You're well-positioned to attract customers. Focus on scaling and staying ahead of competition.</p>
+                    <div class="bg-gradient-to-r from-green-400 to-emerald-600 text-white p-6 mb-6 rounded-lg shadow-lg">
+                        <h4 class="text-xl font-bold mb-3">🏆 Market Leader (${totalScore}/90)</h4>
+                        <p class="text-lg mb-2">Impressive! You're ahead of 90% of your competitors.</p>
+                        <p class="text-green-100 mb-4">But the top 10% know advanced strategies that could 2X your business. What opportunities are you missing?</p>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                            <p class="text-sm font-semibold mb-2">🎯 Advanced Opportunities Waiting:</p>
+                            <ul class="text-sm space-y-1">
+                                <li>• Hidden revenue streams in your existing customer base</li>
+                                <li>• Scaling tactics that work at your level</li>
+                                <li>• Competitive advantages your rivals don't know</li>
+                            </ul>
+                        </div>
                     </div>
                 `;
                 recommendations = [
-                    'Expand to new service areas or services',
-                    'Implement a customer referral program',
-                    'Add video testimonials from happy customers',
-                    'Create seasonal promotions and special offers',
-                    'Consider additional marketing channels'
+                    'Discover advanced strategies your competitors don\'t know about',
+                    'Unlock hidden revenue streams in your existing customer base',
+                    'Learn scaling secrets of 7-figure service businesses',
+                    'Get competitive intelligence report on your local market',
+                    'Access premium growth tactics for top performers'
                 ];
             }
             
@@ -747,6 +756,37 @@
             `;
             
             scoreAnalysis.innerHTML = analysis;
+            
+            // Update CTA based on score
+            updateCTAForScore(totalScore);
+        }
+        
+        function updateCTAForScore(score) {
+            const ctaSection = document.querySelector('.bg-gradient-to-r.from-blue-600.to-purple-600');
+            const bookBtn = document.getElementById('book-review-btn');
+            const ctaSubtext = bookBtn.nextElementSibling;
+            
+            if (score >= 70) {
+                // High scorer CTA
+                ctaSection.className = 'bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg p-6 text-center';
+                ctaSection.querySelector('h3').textContent = 'Ready to Dominate Your Market?';
+                ctaSection.querySelector('p').textContent = 'You\'re already winning - let\'s make sure you stay on top with advanced strategies only the top 1% know.';
+                bookBtn.innerHTML = '🚀 Get My Advanced Strategy Plan';
+                bookBtn.className = 'cta-button bg-white text-green-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all pulse-animation';
+                ctaSubtext.textContent = 'Advanced tactics • Scaling strategies • Market domination';
+            } else if (score >= 50) {
+                // Mid scorer CTA
+                ctaSection.querySelector('h3').textContent = 'Ready to Accelerate Your Growth?';
+                ctaSection.querySelector('p').textContent = 'You have a solid foundation - let\'s optimize and accelerate your customer acquisition.';
+                bookBtn.innerHTML = '📈 Get My Growth Optimization Plan';
+                ctaSubtext.textContent = 'Growth strategies • Optimization focus • Competitive positioning';
+            } else {
+                // Low scorer CTA (keep original)
+                ctaSection.querySelector('h3').textContent = 'Ready to Get More Customers?';
+                ctaSection.querySelector('p').textContent = 'Get a personalized business growth plan and custom action steps to start getting more calls';
+                bookBtn.innerHTML = '📞 Get Your FREE Business Growth Plan';
+                ctaSubtext.textContent = '15-minute call • No sales pitch • Actionable insights guaranteed';
+            }
         }
 
         function copyResults() {
@@ -802,6 +842,19 @@
             urlParams.append('score', totalScore);
             urlParams.append('source', 'business_growth_review');
             urlParams.append('completed', auditCompleted ? 'true' : 'false');
+            
+            // Add score tier for customized booking experience
+            if (totalScore >= 70) {
+                urlParams.append('tier', 'elite');
+                urlParams.append('session_type', 'advanced_strategy');
+            } else if (totalScore >= 50) {
+                urlParams.append('tier', 'growth');
+                urlParams.append('session_type', 'optimization');
+            } else {
+                urlParams.append('tier', 'foundation');
+                urlParams.append('session_type', 'growth_plan');
+            }
+            
             if (!auditCompleted) {
                 urlParams.append('reason', 'time_expired');
             }
