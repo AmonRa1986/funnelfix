@@ -3,22 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Your Free Funnel Review</title>
+    <title>Free Business Growth Review - See How Many Customers You're Missing</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Calendly inline widget CSS -->
-    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        .calendly-inline-widget {
-            min-height: 700px;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        .score-circle {
+            background: conic-gradient(#10b981 0deg, #10b981 var(--percentage), #e5e7eb var(--percentage));
+        }
+        .checkbox-custom {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .checkbox-custom:checked {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+        .checkbox-custom:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .section-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .section-card.completed {
+            border-left-color: #10b981;
+            background-color: #f0fdf4;
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .timer-warning {
+            animation: flash 1s infinite;
+        }
+        @keyframes flash {
+            0%, 50% { background-color: #fef2f2; }
+            51%, 100% { background-color: #fee2e2; }
+        }
+        .timer-critical {
+            animation: flashRed 0.5s infinite;
+        }
+        @keyframes flashRed {
+            0%, 50% { background-color: #dc2626; color: white; }
+            51%, 100% { background-color: #ef4444; color: white; }
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        .cta-button {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -27,77 +84,805 @@
     <header class="gradient-bg text-white py-8">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">
-                📞 Book Your Free Funnel Review
+                🏠 Free Business Growth Review
             </h1>
             <p class="text-xl md:text-2xl mb-6 opacity-90">
-                Schedule a 30-Minute Strategy Call to Boost Your Conversions
+                Find Out Why Customers Aren't Calling in 3 Minutes
             </p>
-            <div id="audit-score-display" class="bg-white bg-opacity-20 rounded-lg p-4 inline-block mb-6 hidden">
+            <div class="bg-white bg-opacity-20 rounded-lg p-4 inline-block mb-6">
                 <p class="text-lg">
-                    <i class="fas fa-chart-line mr-2"></i>
-                    Your Funnel Score: <span id="score-value">0</span>/130
+                    <i class="fas fa-users mr-2"></i>
+                    <strong>2,847+</strong> local service businesses have grown with this review
+                </p>
+            </div>
+            
+            <!-- Primary CTA in Header -->
+            <div class="mt-8">
+                <button id="skip-to-booking" class="cta-button bg-white text-purple-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all mr-4 mb-4 md:mb-0">
+                    📞 Skip Review - Get FREE Growth Plan Now
+                </button>
+                <p class="text-sm opacity-75 mt-2">
+                    Or take the 3-minute review below to see your personalized score first
                 </p>
             </div>
         </div>
     </header>
 
+    <!-- Timer & Score Dashboard -->
+    <div class="bg-white shadow-lg sticky top-0 z-50 border-b">
+        <div class="container mx-auto px-4 py-4">
+            <!-- Timer Section -->
+            <div id="timer-section" class="text-center mb-4 p-3 rounded-lg bg-blue-50 border border-blue-200">
+                <div class="flex items-center justify-center space-x-4">
+                    <i class="fas fa-clock text-blue-600 text-xl"></i>
+                    <div>
+                        <p class="text-sm text-blue-700 font-medium">Complete your review in:</p>
+                        <div id="timer-display" class="text-2xl font-bold text-blue-800">3:00</div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-blue-600">Progress</p>
+                        <div class="w-24 bg-blue-200 rounded-full h-2">
+                            <div id="progress-bar" class="progress-bar bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="flex items-center space-x-6 mb-4 md:mb-0">
+                    <div class="relative">
+                        <div class="w-16 h-16 rounded-full score-circle flex items-center justify-center" style="--percentage: 0deg;">
+                            <span id="score-display" class="text-2xl font-bold text-gray-800">0</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Your Customer Attraction Score</h3>
+                        <p id="score-status" class="text-gray-600">Complete the review to see your score</p>
+                    </div>
+                </div>
+                <div class="flex space-x-4">
+                    <button id="copy-results" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50" disabled>
+                        <i class="fas fa-copy mr-2"></i>Copy Results
+                    </button>
+                    <button id="download-pdf" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50" disabled>
+                        <i class="fas fa-download mr-2"></i>Download PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time's Up Modal -->
+    <div id="times-up-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg p-8 max-w-md w-full text-center">
+                <div class="text-6xl mb-4">⏰</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Time's Almost Up!</h2>
+                <p class="text-gray-600 mb-6">
+                    Don't worry - it looks like your business needs some help getting more customers. 
+                    Let's get you the personalized growth plan you need.
+                </p>
+                <div id="grace-timer" class="text-3xl font-bold text-red-600 mb-6">60</div>
+                <button id="book-now-urgent" class="bg-red-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors pulse-animation w-full">
+                    📞 Get Your FREE Business Growth Plan Now
+                </button>
+                <p class="text-sm text-gray-500 mt-4">
+                    This window will auto-redirect in <span id="grace-countdown">60</span> seconds
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-8">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">
-                    Schedule Your Free 30-Minute Funnel Review
-                </h2>
-                <p class="text-gray-600 mb-6 text-center">
-                    Pick a time below to discuss your funnel audit results and get a custom action plan. No sales pitch, just actionable insights.
+            
+            <!-- Instructions -->
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-6 mb-8 rounded-r-lg">
+                <div class="flex items-start">
+                    <i class="fas fa-info-circle text-blue-400 text-xl mr-3 mt-1"></i>
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-800 mb-2">How This Works</h3>
+                        <p class="text-blue-700">
+                            Check each box that applies to your business. Your score will update in real-time. 
+                            Complete the review to get personalized recommendations and book a free strategy call.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secondary CTA After Instructions -->
+            <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg p-6 text-center mb-8">
+                <h3 class="text-xl font-bold mb-2">Need More Customers Right Away?</h3>
+                <p class="mb-4 opacity-90">
+                    Skip the review and get a personalized business growth plan with actionable steps
                 </p>
-                <!-- Calendly Inline Widget -->
-                <div class="calendly-inline-widget" data-url="https://calendly.com/shomari-growth/30min" data-resize="true"></div>
+                <button id="skip-to-booking-2" class="cta-button bg-white text-purple-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all">
+                    📞 Get Your FREE 15-Minute Growth Plan
+                </button>
+                <p class="text-sm mt-3 opacity-75">
+                    No sales pitch • Actionable insights guaranteed • Available today
+                </p>
+            </div>
+
+            <!-- Audit Sections -->
+            <div class="space-y-8">
+                <!-- Local Visibility -->
+                <div class="section-card bg-white rounded-lg shadow-md p-6" data-section="visibility">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i>
+                            Local Visibility
+                        </h2>
+                        <div class="bg-gray-100 px-3 py-1 rounded-full">
+                            <span class="section-score text-sm font-semibold">0/25</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Google My Business Complete (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Your business shows up on Google Maps with photos, hours, and contact info</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Local Search Presence (5 pts)</span>
+                                <p class="text-gray-600 text-sm">You appear when people search for your services in your area</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Online Directory Listings (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Listed on Yelp, Angie's List, and other places locals look for services</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Service Area Clear (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Customers know exactly which areas and neighborhoods you serve</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Contact Info Visible (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Phone number and address are easy to find everywhere online</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Customer Trust & Reviews -->
+                <div class="section-card bg-white rounded-lg shadow-md p-6" data-section="trust">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                            <i class="fas fa-star text-yellow-600 mr-3"></i>
+                            Customer Trust & Reviews
+                        </h2>
+                        <div class="bg-gray-100 px-3 py-1 rounded-full">
+                            <span class="section-score text-sm font-semibold">0/25</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Customer Reviews Displayed (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Recent positive reviews are visible on your website and Google</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Before/After Photos (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Examples of your work that show the quality results you deliver</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Customer Testimonials (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Real customers talking about their experience working with you</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Professional Appearance (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Your business looks established and trustworthy online</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Credentials Shown (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Licenses, insurance, certifications, and years in business are displayed</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Easy Contact & Response -->
+                <div class="section-card bg-white rounded-lg shadow-md p-6" data-section="contact">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                            <i class="fas fa-phone text-green-600 mr-3"></i>
+                            Easy Contact & Response
+                        </h2>
+                        <div class="bg-gray-100 px-3 py-1 rounded-full">
+                            <span class="section-score text-sm font-semibold">0/20</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Phone Number Prominent (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Your phone number is large, visible, and clickable on mobile</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Multiple Contact Methods (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Phone, email, contact form, and text options are all available</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Quick Response Promise (5 pts)</span>
+                                <p class="text-gray-600 text-sm">You promise to respond within a specific timeframe (like 2 hours)</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Emergency Availability (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Clear about emergency, after-hours, or weekend service availability</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Competitive Advantage -->
+                <div class="section-card bg-white rounded-lg shadow-md p-6" data-section="advantage">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                            <i class="fas fa-trophy text-purple-600 mr-3"></i>
+                            Competitive Advantage
+                        </h2>
+                        <div class="bg-gray-100 px-3 py-1 rounded-full">
+                            <span class="section-score text-sm font-semibold">0/20</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Unique Selling Point (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Clear reason why customers should choose you over competitors</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Service Guarantee (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Warranty, satisfaction guarantee, or promise that reduces customer risk</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Pricing Transparency (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Customers understand your pricing approach (free estimates, flat rates, etc.)</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors">
+                            <input type="checkbox" class="checkbox-custom mt-1" data-points="5">
+                            <div>
+                                <span class="font-semibold text-gray-800">Local Expertise (5 pts)</span>
+                                <p class="text-gray-600 text-sm">Years in business, local knowledge, and community involvement are highlighted</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mid-Audit CTA -->
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 my-8 rounded-r-lg">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-start">
+                        <i class="fas fa-lightbulb text-yellow-400 text-xl mr-3 mt-1"></i>
+                        <div>
+                            <h3 class="text-lg font-semibold text-yellow-800 mb-2">Seeing Issues Already?</h3>
+                            <p class="text-yellow-700">
+                                Don't wait for your score - get expert help fixing these problems and getting more customers right now.
+                            </p>
+                        </div>
+                    </div>
+                    <button id="mid-audit-cta" class="cta-button bg-yellow-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-yellow-700 transition-all whitespace-nowrap ml-4">
+                        Get Help Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-section" class="mt-12 bg-white rounded-lg shadow-lg p-8 border-2 border-gray-200" style="display: none;">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Your Business Growth Review Results</h2>
+                    <div class="flex items-center justify-center space-x-8">
+                        <div class="text-center">
+                            <div class="w-24 h-24 rounded-full score-circle flex items-center justify-center mx-auto mb-2" id="final-score-circle">
+                                <span id="final-score" class="text-3xl font-bold text-gray-800">0</span>
+                            </div>
+                            <p class="text-gray-600">Your Score</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mx-auto mb-2">
+                                <span class="text-3xl font-bold text-gray-800">90</span>
+                            </div>
+                            <p class="text-gray-600">Maximum</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="score-analysis" class="mb-8">
+                    <!-- Dynamic content based on score -->
+                </div>
+
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-6 text-center">
+                    <h3 class="text-2xl font-bold mb-4">Ready to Get More Customers?</h3>
+                    <p class="text-lg mb-6 opacity-90">
+                        Get a personalized business growth plan and custom action steps to start getting more calls
+                    </p>
+                    <button id="book-review-btn" class="cta-button bg-white text-blue-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all pulse-animation">
+                        📞 Get Your FREE Business Growth Plan
+                    </button>
+                    <p class="text-sm mt-4 opacity-75">
+                        15-minute call • No sales pitch • Actionable insights guaranteed
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
+    <footer class="bg-gray-800 text-white py-8 mt-16">
         <div class="container mx-auto px-4 text-center">
             <p class="text-gray-400">
-                © 2025 Marketing Solutions Freelancer. Helping 2,847+ businesses improve their funnels.
+                © 2025 Marketing Solutions Freelancer. This review has helped 2,847+ local service businesses grow.
             </p>
         </div>
     </footer>
 
-    <!-- Calendly inline widget JS -->
-    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
     <script>
-        // Read URL parameters to display audit score
+        // Audit functionality
+        let totalScore = 0;
+        let maxScore = 90; // Reduced from 130
+        let timeRemaining = 3 * 60; // 3 minutes in seconds
+        let timerInterval;
+        let graceTimeRemaining = 60; // 60 seconds grace period
+        let graceInterval;
+        let auditCompleted = false;
+        let checkedBoxes = 0;
+        let totalBoxes = 18; // Reduced from 26
+        
+        // Section max scores
+        const sectionMaxScores = {
+            'visibility': 25,
+            'trust': 25,
+            'contact': 20,
+            'advantage': 20
+        };
+
+        // Track section scores
+        let sectionScores = {
+            'visibility': 0,
+            'trust': 0,
+            'contact': 0,
+            'advantage': 0
+        };
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const score = urlParams.get('score');
-            const completed = urlParams.get('completed');
+            const checkboxes = document.querySelectorAll('.checkbox-custom');
             
-            if (score) {
-                const scoreDisplay = document.getElementById('audit-score-display');
-                const scoreValue = document.getElementById('score-value');
-                scoreDisplay.classList.remove('hidden');
-                scoreValue.textContent = score;
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateScore);
+            });
+
+            // Button event listeners for booking redirects
+            document.getElementById('skip-to-booking').addEventListener('click', bookReview);
+            document.getElementById('skip-to-booking-2').addEventListener('click', bookReview);
+            document.getElementById('mid-audit-cta').addEventListener('click', bookReview);
+            document.getElementById('book-review-btn').addEventListener('click', bookReview);
+            document.getElementById('book-now-urgent').addEventListener('click', bookReview);
+
+            // Other button event listeners
+            document.getElementById('copy-results').addEventListener('click', copyResults);
+            document.getElementById('download-pdf').addEventListener('click', downloadPDF);
+
+            // Start timer
+            startTimer();
+        });
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
                 
-                // Customize message based on completion
-                if (completed === 'true') {
-                    scoreDisplay.innerHTML += '<p class="text-sm text-white mt-2">Great job completing the audit! Let’s discuss how to optimize your funnel.</p>';
-                } else {
-                    scoreDisplay.innerHTML += '<p class="text-sm text-white mt-2">You didn’t finish the audit, but we can still help. Book your call now!</p>';
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    showTimesUpModal();
                 }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const timerDisplay = document.getElementById('timer-display');
+            const timerSection = document.getElementById('timer-section');
+            
+            timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update timer styling based on time remaining
+            if (timeRemaining <= 60) {
+                timerSection.className = 'text-center mb-4 p-3 rounded-lg timer-critical';
+            } else if (timeRemaining <= 90) {
+                timerSection.className = 'text-center mb-4 p-3 rounded-lg timer-warning';
+            }
+            
+            // Update progress bar
+            const progressPercentage = ((3 * 60 - timeRemaining) / (3 * 60)) * 100;
+            document.getElementById('progress-bar').style.width = progressPercentage + '%';
+        }
+
+        function showTimesUpModal() {
+            const modal = document.getElementById('times-up-modal');
+            modal.classList.remove('hidden');
+            
+            // Start grace period countdown
+            graceInterval = setInterval(() => {
+                graceTimeRemaining--;
+                document.getElementById('grace-timer').textContent = graceTimeRemaining;
+                document.getElementById('grace-countdown').textContent = graceTimeRemaining;
+                
+                if (graceTimeRemaining <= 0) {
+                    clearInterval(graceInterval);
+                    // Auto-redirect to booking
+                    bookReview();
+                }
+            }, 1000);
+        }
+
+        function updateScore() {
+            // Reset scores
+            totalScore = 0;
+            checkedBoxes = 0;
+            Object.keys(sectionScores).forEach(key => {
+                sectionScores[key] = 0;
+            });
+
+            // Calculate scores
+            const checkboxes = document.querySelectorAll('.checkbox-custom:checked');
+            checkboxes.forEach(checkbox => {
+                const points = parseInt(checkbox.dataset.points);
+                const section = checkbox.closest('.section-card').dataset.section;
+                
+                totalScore += points;
+                sectionScores[section] += points;
+                checkedBoxes++;
+            });
+
+            // Update displays
+            updateScoreDisplay();
+            updateSectionScores();
+            
+            // Only show results if they've made significant progress (50%+ completion)
+            const completionPercentage = (checkedBoxes / totalBoxes) * 100;
+            if (completionPercentage >= 50 || checkedBoxes >= 9) {
+                updateResultsSection();
+            }
+            
+            // Enable buttons if score > 0
+            const copyBtn = document.getElementById('copy-results');
+            const downloadBtn = document.getElementById('download-pdf');
+            
+            if (totalScore > 0) {
+                copyBtn.disabled = false;
+                downloadBtn.disabled = false;
             }
 
-            // Listen for Calendly event scheduling
-            window.addEventListener('message', function(e) {
-                if (e.data.event && e.data.event === 'calendly.event_scheduled') {
-                    // Redirect to thankyou.html with URL parameters
-                    const redirectUrl = 'thankyou.html?' + urlParams.toString();
-                    window.location.href = redirectUrl;
+            // Check if audit is completed (all boxes checked)
+            if (checkedBoxes === totalBoxes) {
+                auditCompleted = true;
+                clearInterval(timerInterval);
+                document.getElementById('timer-section').innerHTML = `
+                    <div class="text-center p-3 rounded-lg bg-green-50 border border-green-200">
+                        <i class="fas fa-check-circle text-green-600 text-xl mr-2"></i>
+                        <span class="text-green-800 font-semibold">Review Completed!</span>
+                    </div>
+                `;
+            }
+        }
+
+        function updateScoreDisplay() {
+            const scoreDisplay = document.getElementById('score-display');
+            const scoreStatus = document.getElementById('score-status');
+            const scoreCircles = document.querySelectorAll('.score-circle');
+            
+            scoreDisplay.textContent = totalScore;
+            
+            // Update percentage for circle
+            const percentage = (totalScore / maxScore) * 360;
+            scoreCircles.forEach(circle => {
+                circle.style.setProperty('--percentage', percentage + 'deg');
+            });
+
+            // Update status with local service provider language
+            if (totalScore === 0) {
+                scoreStatus.textContent = 'Complete the review to see your score';
+            } else if (totalScore < 30) {
+                scoreStatus.textContent = '🚨 Missing Customers Daily - Major gaps found';
+                scoreStatus.className = 'text-red-600 font-semibold';
+            } else if (totalScore < 50) {
+                scoreStatus.textContent = '⚠️ Good Foundation, Room to Grow';
+                scoreStatus.className = 'text-yellow-600 font-semibold';
+            } else if (totalScore < 70) {
+                scoreStatus.textContent = '🎯 Strong Local Presence - Well positioned';
+                scoreStatus.className = 'text-blue-600 font-semibold';
+            } else {
+                scoreStatus.textContent = '🏆 Customer Magnet - Excellent!';
+                scoreStatus.className = 'text-green-600 font-semibold';
+            }
+        }
+
+        function updateSectionScores() {
+            Object.keys(sectionScores).forEach(section => {
+                const sectionCard = document.querySelector(`[data-section="${section}"]`);
+                const scoreDisplay = sectionCard.querySelector('.section-score');
+                const currentScore = sectionScores[section];
+                const maxScore = sectionMaxScores[section];
+                
+                scoreDisplay.textContent = `${currentScore}/${maxScore}`;
+                
+                // Add completed class if section is fully completed
+                if (currentScore === maxScore) {
+                    sectionCard.classList.add('completed');
+                } else {
+                    sectionCard.classList.remove('completed');
                 }
+            });
+        }
+
+        function updateResultsSection() {
+            const resultsSection = document.getElementById('results-section');
+            const finalScore = document.getElementById('final-score');
+            const finalScoreCircle = document.getElementById('final-score-circle');
+            const scoreAnalysis = document.getElementById('score-analysis');
+            
+            resultsSection.style.display = 'block';
+            finalScore.textContent = totalScore;
+            
+            // Update final score circle
+            const percentage = (totalScore / maxScore) * 360;
+            finalScoreCircle.style.setProperty('--percentage', percentage + 'deg');
+            
+            // Generate analysis with local service provider language
+            let analysis = '';
+            let recommendations = [];
+            
+            if (totalScore < 30) {
+                analysis = `
+                    <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+                        <h4 class="text-lg font-semibold text-red-800 mb-2">🚨 Missing Customers Daily (${totalScore}/90)</h4>
+                        <p class="text-red-700">Your business has major gaps that are preventing customers from finding and choosing you. Focus on the biggest issues first.</p>
+                    </div>
+                `;
+                recommendations = [
+                    'Set up and optimize your Google My Business listing immediately',
+                    'Get your first 5-10 customer reviews posted online',
+                    'Make your phone number large and clickable on your website',
+                    'Add before/after photos of your best work',
+                    'Clearly state what areas you serve'
+                ];
+            } else if (totalScore < 50) {
+                analysis = `
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                        <h4 class="text-lg font-semibold text-yellow-800 mb-2">⚠️ Good Foundation, Room to Grow (${totalScore}/90)</h4>
+                        <p class="text-yellow-700">You have the basics in place but are missing key elements that help customers choose you over competitors.</p>
+                    </div>
+                `;
+                recommendations = [
+                    'Collect and display more customer testimonials',
+                    'Add a service guarantee or warranty to reduce customer risk',
+                    'Improve your response time promises',
+                    'Show your credentials and years of experience',
+                    'Make it easier for customers to contact you'
+                ];
+            } else if (totalScore < 70) {
+                analysis = `
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+                        <h4 class="text-lg font-semibold text-blue-800 mb-2">🎯 Strong Local Presence (${totalScore}/90)</h4>
+                        <p class="text-blue-700">You're doing well and customers can find you. Focus on fine-tuning to beat your competition.</p>
+                    </div>
+                `;
+                recommendations = [
+                    'Highlight what makes you different from competitors',
+                    'Add more recent customer reviews and photos',
+                    'Optimize for emergency or urgent service calls',
+                    'Show more of your local community involvement',
+                    'Test different ways to make customers call faster'
+                ];
+            } else {
+                analysis = `
+                    <div class="bg-gradient-to-r from-green-400 to-emerald-600 text-white p-6 mb-6 rounded-lg shadow-lg">
+                        <h4 class="text-xl font-bold mb-3">🏆 Market Leader (${totalScore}/90)</h4>
+                        <p class="text-lg mb-2">Impressive! You're ahead of 90% of your competitors.</p>
+                        <p class="text-green-100 mb-4">But the top 10% know advanced strategies that could 2X your business. What opportunities are you missing?</p>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                            <p class="text-sm font-semibold mb-2">🎯 Advanced Opportunities Waiting:</p>
+                            <ul class="text-sm space-y-1">
+                                <li>• Hidden revenue streams in your existing customer base</li>
+                                <li>• Scaling tactics that work at your level</li>
+                                <li>• Competitive advantages your rivals don't know</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                recommendations = [
+                    'Discover advanced strategies your competitors don\'t know about',
+                    'Unlock hidden revenue streams in your existing customer base',
+                    'Learn scaling secrets of 7-figure service businesses',
+                    'Get competitive intelligence report on your local market',
+                    'Access premium growth tactics for top performers'
+                ];
+            }
+            
+            analysis += `
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">🎯 Priority Action Items:</h4>
+                    <ul class="space-y-2">
+                        ${recommendations.map(rec => `<li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i><span>${rec}</span></li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            scoreAnalysis.innerHTML = analysis;
+            
+            // Update CTA based on score
+            updateCTAForScore(totalScore);
+        }
+        
+        function updateCTAForScore(score) {
+            const ctaSection = document.querySelector('.bg-gradient-to-r.from-blue-600.to-purple-600');
+            const bookBtn = document.getElementById('book-review-btn');
+            const ctaSubtext = bookBtn.nextElementSibling;
+            
+            if (score >= 70) {
+                // High scorer CTA
+                ctaSection.className = 'bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg p-6 text-center';
+                ctaSection.querySelector('h3').textContent = 'Ready to Dominate Your Market?';
+                ctaSection.querySelector('p').textContent = 'You\'re already winning - let\'s make sure you stay on top with advanced strategies only the top 1% know.';
+                bookBtn.innerHTML = '🚀 Get My Advanced Strategy Plan';
+                bookBtn.className = 'cta-button bg-white text-green-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all pulse-animation';
+                ctaSubtext.textContent = 'Advanced tactics • Scaling strategies • Market domination';
+            } else if (score >= 50) {
+                // Mid scorer CTA
+                ctaSection.querySelector('h3').textContent = 'Ready to Accelerate Your Growth?';
+                ctaSection.querySelector('p').textContent = 'You have a solid foundation - let\'s optimize and accelerate your customer acquisition.';
+                bookBtn.innerHTML = '📈 Get My Growth Optimization Plan';
+                ctaSubtext.textContent = 'Growth strategies • Optimization focus • Competitive positioning';
+            } else {
+                // Low scorer CTA (keep original)
+                ctaSection.querySelector('h3').textContent = 'Ready to Get More Customers?';
+                ctaSection.querySelector('p').textContent = 'Get a personalized business growth plan and custom action steps to start getting more calls';
+                bookBtn.innerHTML = '📞 Get Your FREE Business Growth Plan';
+                ctaSubtext.textContent = '15-minute call • No sales pitch • Actionable insights guaranteed';
+            }
+        }
+
+        function copyResults() {
+            const results = generateResultsText();
+            navigator.clipboard.writeText(results).then(() => {
+                const btn = document.getElementById('copy-results');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+                btn.classList.add('bg-green-600');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-green-600');
+                }, 2000);
+            });
+        }
+
+        function generateResultsText() {
+            let text = `BUSINESS GROWTH REVIEW RESULTS\n`;
+            text += `================================\n\n`;
+            text += `Total Score: ${totalScore}/90\n\n`;
+            
+            text += `SECTION BREAKDOWN:\n`;
+            Object.keys(sectionScores).forEach(section => {
+                const sectionName = section.charAt(0).toUpperCase() + section.slice(1);
+                text += `${sectionName}: ${sectionScores[section]}/${sectionMaxScores[section]}\n`;
+            });
+            
+            text += `\nSTATUS: `;
+            if (totalScore < 30) {
+                text += `🚨 Missing Customers Daily - Major gaps found\n`;
+            } else if (totalScore < 50) {
+                text += `⚠️ Good Foundation, Room to Grow\n`;
+            } else if (totalScore < 70) {
+                text += `🎯 Strong Local Presence - Well positioned\n`;
+            } else {
+                text += `🏆 Customer Magnet - Excellent!\n`;
+            }
+            
+            text += `\nGenerated by: Marketing Solutions Freelancer Business Growth Review\n`;
+            text += `Get your free growth plan: booking.html`;
+            
+            return text;
+        }
+
+        function downloadPDF() {
+            alert('PDF download feature coming soon! Use the copy button to save your results.');
+        }
+
+        function bookReview() {
+            // Redirect to booking page with audit data
+            const urlParams = new URLSearchParams();
+            urlParams.append('score', totalScore);
+            urlParams.append('source', 'business_growth_review');
+            urlParams.append('completed', auditCompleted ? 'true' : 'false');
+            
+            // Add score tier for customized booking experience
+            if (totalScore >= 70) {
+                urlParams.append('tier', 'elite');
+                urlParams.append('session_type', 'advanced_strategy');
+            } else if (totalScore >= 50) {
+                urlParams.append('tier', 'growth');
+                urlParams.append('session_type', 'optimization');
+            } else {
+                urlParams.append('tier', 'foundation');
+                urlParams.append('session_type', 'growth_plan');
+            }
+            
+            if (!auditCompleted) {
+                urlParams.append('reason', 'time_expired');
+            }
+            
+            // Redirect to booking.html in the same repository
+            window.location.href = 'booking.html?' + urlParams.toString();
+        }
+
+        // Smooth scrolling for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add intersection observer for animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.section-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
             });
         });
     </script>
 </body>
 </html>
+
