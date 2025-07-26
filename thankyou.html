@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You - Your Funnel Review is Confirmed!</title>
+    <title>Thank You - Your Business Growth Strategy Session is Confirmed!</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .gradient-bg-elite {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        .gradient-bg-growth {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         }
         .success-animation {
             animation: successPulse 2s ease-in-out infinite;
@@ -61,6 +67,54 @@
         .testimonial-card {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
+        .score-circle {
+            background: conic-gradient(#10b981 0deg, #10b981 var(--percentage), #e5e7eb var(--percentage));
+        }
+        .tier-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .tier-elite {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .tier-growth {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+        .tier-foundation {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        .avatar-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .avatar-blue {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+        .avatar-green {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        .avatar-purple {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+        .avatar-orange {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
     </style>
     
     <!-- Conversion Tracking -->
@@ -72,7 +126,9 @@
                 gtag('event', eventName, {
                     'event_category': 'Conversion',
                     'event_label': packageName,
-                    'value': value
+                    'value': value,
+                    'tier': window.currentTier || 'foundation',
+                    'score': window.currentScore || 0
                 });
             }
             
@@ -98,7 +154,7 @@
 <body class="bg-gray-50">
     
     <!-- Success Confirmation -->
-    <div class="gradient-bg text-white py-16">
+    <div id="main-header" class="gradient-bg text-white py-16">
         <div class="container mx-auto px-4 text-center">
             <div class="success-animation inline-block w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mb-6">
                 <i class="fas fa-check text-4xl text-white"></i>
@@ -108,24 +164,43 @@
                 🎉 You're All Set!
             </h1>
             
-            <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
-                Your FREE funnel review call with <strong>Shomari Hines</strong> is confirmed!
+            <p id="main-confirmation" class="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
+                Your FREE Business Growth Strategy Session with <strong>Shomari Hines</strong> is confirmed!
             </p>
+
+            <!-- Score Display -->
+            <div id="score-display-section" class="bg-white bg-opacity-20 rounded-lg p-6 inline-block mb-8 hidden">
+                <div class="flex items-center justify-center space-x-6">
+                    <div class="relative">
+                        <div id="score-circle" class="w-20 h-20 rounded-full score-circle flex items-center justify-center" style="--percentage: 0deg;">
+                            <span id="score-value" class="text-2xl font-bold text-white">0</span>
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <div id="tier-badge" class="tier-badge tier-foundation mb-2">
+                            <i class="fas fa-star mr-2"></i>
+                            <span id="tier-text">Foundation Tier</span>
+                        </div>
+                        <p class="text-lg font-semibold">Your Customer Attraction Score: <span id="score-text">0</span>/90</p>
+                        <p id="score-status" class="text-sm opacity-90">We'll focus on your specific needs</p>
+                    </div>
+                </div>
+            </div>
             
             <div class="bg-white bg-opacity-20 rounded-lg p-6 inline-block mb-8">
                 <h3 class="text-2xl font-bold mb-4">What Happens Next:</h3>
-                <div class="grid md:grid-cols-3 gap-6 text-lg">
+                <div id="next-steps" class="grid md:grid-cols-3 gap-6 text-lg">
                     <div class="flex items-center">
                         <i class="fas fa-calendar-check mr-3 text-2xl text-green-300"></i>
                         <span>Calendar invite sent</span>
                     </div>
                     <div class="flex items-center">
-                        <i class="fas fa-search mr-3 text-2xl text-blue-300"></i>
-                        <span>Funnel pre-analysis</span>
+                        <i class="fas fa-map-marked-alt mr-3 text-2xl text-blue-300"></i>
+                        <span>Local market analysis</span>
                     </div>
                     <div class="flex items-center">
                         <i class="fas fa-rocket mr-3 text-2xl text-yellow-300"></i>
-                        <span>Custom action plan</span>
+                        <span>Customer attraction roadmap</span>
                     </div>
                 </div>
             </div>
@@ -144,25 +219,25 @@
                     <div>
                         <h2 class="text-4xl font-bold text-gray-800 mb-6">
                             Meet <span class="text-blue-600">Shomari Hines</span><br>
-                            <span class="text-2xl text-gray-600">Your Marketing Solutions Freelancer</span>
+                            <span class="text-2xl text-gray-600">Your Local Business Growth Expert</span>
                         </h2>
                         
                         <div class="space-y-4 text-lg text-gray-700 mb-8">
                             <p class="flex items-start">
                                 <i class="fas fa-trophy text-yellow-500 mr-3 mt-1"></i>
-                                <span><strong>2,847+ businesses</strong> have transformed their funnels with Shomari's proven strategies</span>
+                                <span><strong>2,847+ local service businesses</strong> have transformed their customer attraction with Shomari's proven strategies</span>
                             </p>
                             <p class="flex items-start">
                                 <i class="fas fa-chart-line text-green-500 mr-3 mt-1"></i>
-                                <span><strong>Average 300% ROI increase</strong> within the first 90 days of implementation</span>
+                                <span><strong>Average 300% increase in customer calls</strong> within the first 90 days of implementation</span>
                             </p>
                             <p class="flex items-start">
-                                <i class="fas fa-lightbulb text-blue-500 mr-3 mt-1"></i>
-                                <span><strong>Innovative approach</strong> combining AI-powered strategies with human psychology</span>
+                                <i class="fas fa-map-marked-alt text-blue-500 mr-3 mt-1"></i>
+                                <span><strong>Local SEO specialist</strong> helping plumbers, painters, contractors dominate their markets</span>
                             </p>
                             <p class="flex items-start">
-                                <i class="fas fa-users text-purple-500 mr-3 mt-1"></i>
-                                <span><strong>Culture innovation expert</strong> helping teams build sustainable growth habits</span>
+                                <i class="fas fa-star text-purple-500 mr-3 mt-1"></i>
+                                <span><strong>Google My Business expert</strong> with proven review management and local visibility strategies</span>
                             </p>
                         </div>
                         
@@ -172,15 +247,17 @@
                                 Shomari's Philosophy:
                             </h4>
                             <p class="text-gray-700 italic">
-                                "Every business deserves a funnel that converts like crazy AND a culture that attracts top talent. 
-                                I don't just fix your marketing—I transform how your entire team thinks about growth."
+                                "Every local service business deserves to be the first choice in their market. 
+                                I don't just improve your online presence—I make sure customers choose YOU over your competition."
                             </p>
                         </div>
                     </div>
                     
                     <div class="text-center">
                         <div class="relative inline-block">
-                            <img src="avatar.jpg" alt="Shomari Hines" class="w-80 h-80 rounded-full object-cover mx-auto mb-6">
+                            <div class="w-80 h-80 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mx-auto mb-6 text-white text-6xl font-bold">
+                                SH
+                            </div>
                             <div class="absolute -bottom-4 -right-4 bg-green-500 text-white rounded-full w-16 h-16 flex items-center justify-center">
                                 <i class="fas fa-check text-2xl"></i>
                             </div>
@@ -189,19 +266,19 @@
                         <div class="grid grid-cols-2 gap-4 mt-8">
                             <div class="bg-gray-50 rounded-lg p-4 text-center">
                                 <div class="text-2xl font-bold text-blue-600">5+ Years</div>
-                                <div class="text-sm text-gray-600">Experience</div>
+                                <div class="text-sm text-gray-600">Local Business Focus</div>
                             </div>
                             <div class="bg-gray-50 rounded-lg p-4 text-center">
                                 <div class="text-2xl font-bold text-green-600">98%</div>
-                                <div class="text-sm text-gray-600">Success Rate</div>
+                                <div class="text-sm text-gray-600">Client Success Rate</div>
                             </div>
                             <div class="bg-gray-50 rounded-lg p-4 text-center">
                                 <div class="text-2xl font-bold text-purple-600">$50M+</div>
-                                <div class="text-sm text-gray-600">Generated</div>
+                                <div class="text-sm text-gray-600">Revenue Generated</div>
                             </div>
                             <div class="bg-gray-50 rounded-lg p-4 text-center">
                                 <div class="text-2xl font-bold text-orange-600">24/7</div>
-                                <div class="text-sm text-gray-600">Support</div>
+                                <div class="text-sm text-gray-600">Support Available</div>
                             </div>
                         </div>
                     </div>
@@ -231,315 +308,198 @@
                     Ready to Get Started <span class="text-blue-600">Right Now?</span>
                 </h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Why wait for the call? Many clients know exactly what they need. 
-                    Choose your package and start transforming your business today!
+                    Why wait for the call? Many local service providers know exactly what they need. 
+                    Choose your package and start attracting more customers today!
                 </p>
                 <div class="mt-6 inline-block bg-yellow-100 border border-yellow-300 rounded-lg px-6 py-3">
                     <p class="text-yellow-800 font-semibold">
                         <i class="fas fa-gift mr-2"></i>
-                        Book now and get your funnel review call included FREE as a bonus!
+                        Book now and get your strategy session included FREE as a bonus!
                     </p>
                 </div>
             </div>
 
-            <!-- Marketing Packages -->
+            <!-- Additional Services Section -->
             <div class="mb-16">
                 <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">
-                    🚀 Marketing Growth Packages
+                    🎯 Essential Services for Local Businesses
                 </h3>
                 
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Starter Package -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                    <!-- Reputation Management Service -->
                     <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="text-blue-600 text-4xl mb-4">
-                            <i class="fas fa-rocket"></i>
+                        <div class="text-purple-600 text-4xl mb-4">
+                            <i class="fas fa-shield-alt"></i>
                         </div>
-                        <h4 class="text-xl font-bold text-gray-800 mb-2">Funnel Starter</h4>
-                        <div class="text-3xl font-bold text-gray-800 mb-1">
-                            <span class="line-through text-gray-400 text-xl">$2,497</span>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Reputation Management</h4>
+                        <div class="text-2xl font-bold text-gray-800 mb-1">
+                            <span class="line-through text-gray-400 text-lg">$897</span>
                         </div>
-                        <div class="text-4xl font-bold text-green-600 mb-4">
-                            $1,873
-                        </div>
-                        <p class="text-gray-600 mb-6">Perfect for new businesses ready to launch their first high-converting funnel</p>
+                        <div class="text-3xl font-bold text-green-600 mb-4">$673</div>
+                        <p class="text-gray-600 mb-6 text-sm">Protect and enhance your online reputation with automated review management</p>
                         
-                        <ul class="text-left space-y-2 mb-6 text-sm">
+                        <ul class="text-left space-y-2 mb-6 text-xs">
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Landing page optimization</span>
+                                <span>Automated review monitoring</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Email sequence setup</span>
+                                <span>Review response management</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Basic analytics tracking</span>
+                                <span>Negative review mitigation</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>2 weeks support</span>
+                                <span>Review generation campaigns</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Monthly reputation reports</span>
                             </li>
                         </ul>
                         
-                        <button onclick="selectPackage('Funnel Starter', 1873)" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                        <button onclick="selectPackage('Reputation Management', 673)" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors mb-2">
                             Get Started Now
                         </button>
-                        <p class="text-xs text-gray-500 mt-2">14-day delivery</p>
+                        <p class="text-xs text-gray-500">10-day delivery</p>
                     </div>
 
-                    <!-- Growth Package -->
+                    <!-- Optimized Website Service -->
+                    <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
+                        <div class="text-blue-600 text-4xl mb-4">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Optimized Website</h4>
+                        <div class="text-2xl font-bold text-gray-800 mb-1">
+                            <span class="line-through text-gray-400 text-lg">$2,497</span>
+                        </div>
+                        <div class="text-3xl font-bold text-green-600 mb-4">$1,873</div>
+                        <p class="text-gray-600 mb-6 text-sm">High-converting website designed specifically for local service businesses</p>
+                        
+                        <ul class="text-left space-y-2 mb-6 text-xs">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Mobile-responsive design</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Local SEO optimization</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Fast loading speed</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Lead capture forms</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>Click-to-call integration</span>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="selectPackage('Optimized Website', 1873)" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors mb-2">
+                            Get Started Now
+                        </button>
+                        <p class="text-xs text-gray-500">14-day delivery</p>
+                    </div>
+
+                    <!-- Email Marketing Service -->
                     <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
                         <div class="text-green-600 text-4xl mb-4">
-                            <i class="fas fa-chart-line"></i>
+                            <i class="fas fa-envelope"></i>
                         </div>
-                        <h4 class="text-xl font-bold text-gray-800 mb-2">Growth Accelerator</h4>
-                        <div class="text-3xl font-bold text-gray-800 mb-1">
-                            <span class="line-through text-gray-400 text-xl">$4,997</span>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Email Marketing</h4>
+                        <div class="text-2xl font-bold text-gray-800 mb-1">
+                            <span class="line-through text-gray-400 text-lg">$797</span>
                         </div>
-                        <div class="text-4xl font-bold text-green-600 mb-4">
-                            $3,748
-                        </div>
-                        <p class="text-gray-600 mb-6">For businesses ready to scale with advanced funnel strategies</p>
+                        <div class="text-3xl font-bold text-green-600 mb-4">$598</div>
+                        <p class="text-gray-600 mb-6 text-sm">Automated email campaigns to nurture leads and retain customers</p>
                         
-                        <ul class="text-left space-y-2 mb-6 text-sm">
+                        <ul class="text-left space-y-2 mb-6 text-xs">
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Complete funnel rebuild</span>
+                                <span>Email automation setup</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Advanced email automation</span>
+                                <span>Lead nurturing sequences</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>A/B testing setup</span>
+                                <span>Customer retention campaigns</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>30 days support</span>
+                                <span>Email template design</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>ROI tracking dashboard</span>
+                                <span>Performance tracking</span>
                             </li>
                         </ul>
                         
-                        <button onclick="selectPackage('Growth Accelerator', 3748)" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                            Accelerate Growth
+                        <button onclick="selectPackage('Email Marketing', 598)" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors mb-2">
+                            Get Started Now
                         </button>
-                        <p class="text-xs text-gray-500 mt-2">21-day delivery</p>
+                        <p class="text-xs text-gray-500">7-day delivery</p>
                     </div>
 
-                    <!-- Scale Package - Featured -->
-                    <div class="package-card featured bg-white rounded-lg shadow-lg p-6 text-center pt-12">
-                        <div class="text-purple-600 text-4xl mb-4">
-                            <i class="fas fa-crown"></i>
-                        </div>
-                        <h4 class="text-xl font-bold text-gray-800 mb-2">Scale Master</h4>
-                        <div class="text-3xl font-bold text-gray-800 mb-1">
-                            <span class="line-through text-gray-400 text-xl">$9,997</span>
-                        </div>
-                        <div class="text-4xl font-bold text-green-600 mb-4">
-                            $7,498
-                        </div>
-                        <p class="text-gray-600 mb-6">Complete marketing transformation for serious businesses</p>
-                        
-                        <ul class="text-left space-y-2 mb-6 text-sm">
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Multi-funnel ecosystem</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>AI-powered optimization</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Team training included</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>90 days VIP support</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Monthly strategy calls</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Culture innovation bonus</span>
-                            </li>
-                        </ul>
-                        
-                        <button onclick="selectPackage('Scale Master', 7498)" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                            Scale to 7-Figures
-                        </button>
-                        <p class="text-xs text-gray-500 mt-2">30-day delivery</p>
-                    </div>
-
-                    <!-- Enterprise Package -->
+                    <!-- Social Media Management Service -->
                     <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
                         <div class="text-orange-600 text-4xl mb-4">
-                            <i class="fas fa-building"></i>
+                            <i class="fab fa-facebook"></i>
                         </div>
-                        <h4 class="text-xl font-bold text-gray-800 mb-2">Enterprise</h4>
-                        <div class="text-4xl font-bold text-gray-800 mb-4">
-                            Custom Quote
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">Social Media</h4>
+                        <div class="text-2xl font-bold text-gray-800 mb-1">
+                            <span class="line-through text-gray-400 text-lg">$697/mo</span>
                         </div>
-                        <p class="text-gray-600 mb-6">Tailored solutions for large organizations and unique requirements</p>
+                        <div class="text-3xl font-bold text-green-600 mb-4">$523/mo</div>
+                        <p class="text-gray-600 mb-6 text-sm">Professional social media management to attract local customers</p>
                         
-                        <ul class="text-left space-y-2 mb-6 text-sm">
+                        <ul class="text-left space-y-2 mb-6 text-xs">
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Custom strategy development</span>
+                                <span>Content creation & posting</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Dedicated account manager</span>
+                                <span>Local community engagement</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Priority support</span>
+                                <span>Facebook & Instagram management</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Unlimited revisions</span>
+                                <span>Customer service responses</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>White-label options</span>
+                                <span>Monthly performance reports</span>
                             </li>
                         </ul>
                         
-                        <button onclick="selectPackage('Enterprise', 0)" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                            Get Custom Quote
+                        <button onclick="selectPackage('Social Media Management', 523)" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg transition-colors mb-2">
+                            Get Started Now
                         </button>
-                        <p class="text-xs text-gray-500 mt-2">Timeline varies</p>
+                        <p class="text-xs text-gray-500">Ongoing monthly</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Culture Innovation Packages -->
+            <!-- Local Business Growth Packages -->
             <div class="mb-16">
                 <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">
-                    🎯 Culture Innovation Packages
+                    🚀 Complete Local Business Growth Packages
                 </h3>
                 
-                <div class="grid md:grid-cols-3 gap-6">
-                    <!-- Culture Starter -->
-                    <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="text-blue-600 text-4xl mb-4">
-                            <i class="fas fa-seedling"></i>
-                        </div>
-                        <h4 class="text-xl font-bold text-gray-800 mb-2">Culture Starter</h4>
-                        <div class="text-3xl font-bold text-gray-800 mb-1">
-                            <span class="line-through text-gray-400 text-xl">$1,997</span>
-                        </div>
-                        <div class="text-4xl font-bold text-green-600 mb-4">
-                            $1,498
-                        </div>
-                        <p class="text-gray-600 mb-6">Build innovation habits that stick</p>
-                        
-                        <ul class="text-left space-y-2 mb-6 text-sm">
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Team assessment</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Innovation framework</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Weekly idea sessions</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>30 days implementation</span>
-                            </li>
-                        </ul>
-                        
-                        <button onclick="selectPackage('Culture Starter', 1498)" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                            Start Innovation
-                        </button>
-                    </div>
-
-                    <!-- Culture Growth -->
-                    <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="text-green-600 text-4xl mb-4">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h4 class="text-xl font-bold text-gray-800 mb-2">Culture Growth</h4>
-                        <div class="text-3xl font-bold text-gray-800 mb-1">
-                            <span class="line-through text-gray-400 text-xl">$3,997</span>
-                        </div>
-                        <div class="text-4xl font-bold text-green-600 mb-4">
-                            $2,998
-                        </div>
-                        <p class="text-gray-600 mb-6">Transform your team dynamics</p>
-                        
-                        <ul class="text-left space-y-2 mb-6 text-sm">
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Complete culture audit</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Leadership training</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Innovation KPI tracking</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>60 days support</span>
-                            </li>
-                        </ul>
-                        
-                        <button onclick="selectPackage('Culture Growth', 2998)" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                            Transform Culture
-                        </button>
-                    </div>
-
-                    <!-- Culture Mastery -->
-                    <div class="package-card bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="text-purple-600 text-4xl mb-4">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <h4 class="text-xl font-bold text-gray-800 mb-2">Culture Mastery</h4>
-                        <div class="text-3xl font-bold text-gray-800 mb-1">
-                            <span class="line-through text-gray-400 text-xl">$7,997</span>
-                        </div>
-                        <div class="text-4xl font-bold text-green-600 mb-4">
-                            $5,998
-                        </div>
-                        <p class="text-gray-600 mb-6">Build a magnetic company culture</p>
-                        
-                        <ul class="text-left space-y-2 mb-6 text-sm">
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Complete transformation</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Talent attraction system</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>Innovation lab setup</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
-                                <span>90 days VIP support</span>
-                            </li>
-                        </ul>
-                        
-                        <button onclick="selectPackage('Culture Mastery', 5998)" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                            Master Culture
-                        </button>
-                    </div>
+                <div id="packages-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Packages will be dynamically loaded based on tier -->
                 </div>
             </div>
         </div>
@@ -549,10 +509,10 @@
     <div class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">
-                What Clients Say About Working with Shomari
+                What Local Service Providers Say About Working with Shomari
             </h3>
             
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="testimonial-card rounded-lg p-6">
                     <div class="flex text-yellow-500 mb-4">
                         <i class="fas fa-star"></i>
@@ -561,18 +521,18 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-gray-700 mb-4 italic">
-                        "Shomari didn't just fix our funnel - he transformed our entire approach to marketing. 
-                        Revenue increased 400% in 3 months, and our team is more motivated than ever!"
+                    <p class="text-gray-700 mb-4 italic text-sm">
+                        "Went from 2-3 calls per week to 15+ calls per week in just 30 days. 
+                        The Google My Business optimization alone was worth thousands!"
                     </p>
                     <div class="flex items-center">
-                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
-                            JM
+                        <div class="avatar-circle avatar-blue">
+                            MR
                         </div>
                         <div>
-                            <p class="font-bold text-gray-800">Jennifer Martinez</p>
-                            <p class="text-sm text-gray-600">CEO, TechStart Solutions</p>
-                            <p class="text-sm text-green-600 font-semibold">Scale Master Client</p>
+                            <p class="font-bold text-gray-800 text-sm">Mike Rodriguez</p>
+                            <p class="text-xs text-gray-600">Rodriguez Plumbing, Miami FL</p>
+                            <p class="text-xs text-green-600 font-semibold">Local Visibility Pro Client</p>
                         </div>
                     </div>
                 </div>
@@ -585,18 +545,18 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-gray-700 mb-4 italic">
-                        "The culture innovation package was a game-changer. We went from high turnover 
-                        to having a waitlist of people wanting to work here. ROI was immediate!"
+                    <p class="text-gray-700 mb-4 italic text-sm">
+                        "Finally understand why customers weren't calling. Fixed 3 simple things 
+                        and now I'm booked solid for the next 2 months!"
                     </p>
                     <div class="flex items-center">
-                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
-                            DR
+                        <div class="avatar-circle avatar-green">
+                            SJ
                         </div>
                         <div>
-                            <p class="font-bold text-gray-800">David Rodriguez</p>
-                            <p class="text-sm text-gray-600">Founder, Local Pro Services</p>
-                            <p class="text-sm text-purple-600 font-semibold">Culture Mastery Client</p>
+                            <p class="font-bold text-gray-800 text-sm">Sarah Johnson</p>
+                            <p class="text-xs text-gray-600">Johnson Painting, Austin TX</p>
+                            <p class="text-xs text-blue-600 font-semibold">Local Visibility Starter Client</p>
                         </div>
                     </div>
                 </div>
@@ -609,18 +569,42 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-gray-700 mb-4 italic">
-                        "Best investment we ever made. Shomari's strategies are cutting-edge, 
-                        and his support is unmatched. We're now the market leader in our space!"
+                    <p class="text-gray-700 mb-4 italic text-sm">
+                        "Doubled my project inquiries in 6 weeks. The review strategy and 
+                        local SEO tips were game-changers for my business."
                     </p>
                     <div class="flex items-center">
-                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
-                            SK
+                        <div class="avatar-circle avatar-purple">
+                            DM
                         </div>
                         <div>
-                            <p class="font-bold text-gray-800">Sarah Kim</p>
-                            <p class="text-sm text-gray-600">Director, Online Academy</p>
-                            <p class="text-sm text-blue-600 font-semibold">Growth Accelerator Client</p>
+                            <p class="font-bold text-gray-800 text-sm">David Martinez</p>
+                            <p class="text-xs text-gray-600">Martinez Construction, Phoenix AZ</p>
+                            <p class="text-xs text-purple-600 font-semibold">Market Domination Elite Client</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card rounded-lg p-6">
+                    <div class="flex text-yellow-500 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-4 italic text-sm">
+                        "Emergency calls increased 300% after implementing the contact optimization strategy. 
+                        Best investment I've made for my business."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="avatar-circle avatar-orange">
+                            LT
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800 text-sm">Lisa Thompson</p>
+                            <p class="text-xs text-gray-600">Thompson HVAC, Denver CO</p>
+                            <p class="text-xs text-green-600 font-semibold">Local Visibility Pro Client</p>
                         </div>
                     </div>
                 </div>
@@ -632,11 +616,11 @@
     <div class="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-4xl font-bold mb-6">
-                Don't Wait - Your Competition Won't
+                Don't Wait - Your Competitors Won't
             </h2>
             <p class="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
-                Every day you delay is market share your competitors are gaining. 
-                Join the 2,847+ businesses already dominating their markets with Shomari's strategies.
+                Every day you delay is customers your competitors are getting. 
+                Join the 2,847+ local service businesses already dominating their markets with Shomari's strategies.
             </p>
             
             <div class="grid md:grid-cols-3 gap-6 mb-8">
@@ -696,7 +680,7 @@
         <div class="container mx-auto px-4 text-center">
             <p class="text-gray-400 mb-4">
                 © 2025 Shomari Hines - Marketing Solutions Freelancer. 
-                Transforming businesses through innovative marketing and culture strategies.
+                Helping local service businesses attract more customers and dominate their markets.
             </p>
             <div class="flex justify-center space-x-6">
                 <a href="#" class="text-gray-400 hover:text-white transition-colors">
@@ -713,9 +697,266 @@
     </footer>
 
     <script>
+        // Global variables
         let selectedPackage = null;
         let selectedPrice = 0;
-        
+        let currentTier = 'foundation';
+        let currentScore = 0;
+        let urlParams;
+
+        // Tier-based package configurations
+        const tierPackages = {
+            foundation: [
+                {
+                    name: 'Local Visibility Starter',
+                    icon: 'fas fa-map-marked-alt',
+                    originalPrice: 997,
+                    price: 748,
+                    description: 'Perfect for new local businesses ready to get found by customers',
+                    features: [
+                        'Google My Business optimization',
+                        'Local directory listings',
+                        'Basic review management',
+                        'Contact optimization',
+                        '14 days support'
+                    ],
+                    delivery: '7-day delivery',
+                    color: 'blue'
+                },
+                {
+                    name: 'Customer Attraction Essentials',
+                    icon: 'fas fa-users',
+                    originalPrice: 1497,
+                    price: 1123,
+                    description: 'Complete foundation for attracting and converting local customers',
+                    features: [
+                        'Everything in Starter',
+                        'Local SEO optimization',
+                        'Review generation system',
+                        'Local advertising setup',
+                        '30 days support'
+                    ],
+                    delivery: '14-day delivery',
+                    color: 'green',
+                    featured: true
+                }
+            ],
+            growth: [
+                {
+                    name: 'Local Visibility Pro',
+                    icon: 'fas fa-chart-line',
+                    originalPrice: 1997,
+                    price: 1498,
+                    description: 'Advanced strategies to accelerate your customer acquisition',
+                    features: [
+                        'Complete local SEO overhaul',
+                        'Advanced GMB optimization',
+                        'Competitor analysis',
+                        'Local advertising campaigns',
+                        '45 days support'
+                    ],
+                    delivery: '10-day delivery',
+                    color: 'blue'
+                },
+                {
+                    name: 'Customer Magnet System',
+                    icon: 'fas fa-magnet',
+                    originalPrice: 2997,
+                    price: 2248,
+                    description: 'Comprehensive system to dominate your local market',
+                    features: [
+                        'Everything in Pro',
+                        'Advanced review automation',
+                        'Local content marketing',
+                        'Conversion optimization',
+                        '60 days VIP support'
+                    ],
+                    delivery: '14-day delivery',
+                    color: 'green',
+                    featured: true
+                }
+            ],
+            elite: [
+                {
+                    name: 'Market Domination Elite',
+                    icon: 'fas fa-crown',
+                    originalPrice: 3997,
+                    price: 2998,
+                    description: 'Complete market domination for serious local businesses',
+                    features: [
+                        'Multi-location optimization',
+                        'Advanced competitor crushing',
+                        'Premium review management',
+                        'Local PR and outreach',
+                        '90 days VIP support'
+                    ],
+                    delivery: '14-day delivery',
+                    color: 'purple',
+                    featured: true
+                },
+                {
+                    name: 'Local Empire Builder',
+                    icon: 'fas fa-building',
+                    originalPrice: 5997,
+                    price: 4498,
+                    description: 'Build a local business empire that competitors can\'t touch',
+                    features: [
+                        'Everything in Elite',
+                        'Multi-service optimization',
+                        'Advanced analytics dashboard',
+                        'Monthly strategy calls',
+                        '6 months ongoing support'
+                    ],
+                    delivery: '21-day delivery',
+                    color: 'orange'
+                }
+            ]
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            parseURLParameters();
+            customizePageContent();
+            loadTierPackages();
+            startCountdown();
+            setupEventListeners();
+        });
+
+        function parseURLParameters() {
+            urlParams = new URLSearchParams(window.location.search);
+            currentScore = parseInt(urlParams.get('score')) || 0;
+            currentTier = urlParams.get('tier') || 'foundation';
+            const sessionType = urlParams.get('session_type') || 'growth_plan';
+            const completed = urlParams.get('completed') === 'true';
+            const booked = urlParams.get('booked') === 'true';
+
+            // Validate tier based on score if not provided
+            if (!urlParams.get('tier') && currentScore > 0) {
+                if (currentScore >= 70) currentTier = 'elite';
+                else if (currentScore >= 50) currentTier = 'growth';
+                else currentTier = 'foundation';
+            }
+
+            // Store globally for tracking
+            window.currentTier = currentTier;
+            window.currentScore = currentScore;
+        }
+
+        function customizePageContent() {
+            const tierConfigs = {
+                elite: {
+                    headerClass: 'gradient-bg-elite',
+                    confirmationText: 'Your FREE Advanced Strategy Session with <strong>Shomari Hines</strong> is confirmed!',
+                    nextSteps: [
+                        { icon: 'fas fa-calendar-check', text: 'Calendar invite sent' },
+                        { icon: 'fas fa-eye', text: 'Competitive intelligence review' },
+                        { icon: 'fas fa-rocket', text: 'Market domination roadmap' }
+                    ]
+                },
+                growth: {
+                    headerClass: 'gradient-bg-growth',
+                    confirmationText: 'Your FREE Growth Optimization Session with <strong>Shomari Hines</strong> is confirmed!',
+                    nextSteps: [
+                        { icon: 'fas fa-calendar-check', text: 'Calendar invite sent' },
+                        { icon: 'fas fa-chart-line', text: 'Growth opportunity analysis' },
+                        { icon: 'fas fa-target', text: 'Optimization action plan' }
+                    ]
+                },
+                foundation: {
+                    headerClass: 'gradient-bg',
+                    confirmationText: 'Your FREE Business Growth Strategy Session with <strong>Shomari Hines</strong> is confirmed!',
+                    nextSteps: [
+                        { icon: 'fas fa-calendar-check', text: 'Calendar invite sent' },
+                        { icon: 'fas fa-map-marked-alt', text: 'Local market analysis' },
+                        { icon: 'fas fa-rocket', text: 'Customer attraction roadmap' }
+                    ]
+                }
+            };
+
+            const config = tierConfigs[currentTier];
+            
+            // Update header
+            document.getElementById('main-header').className = `${config.headerClass} text-white py-16`;
+            document.getElementById('main-confirmation').innerHTML = config.confirmationText;
+
+            // Update next steps
+            const nextStepsContainer = document.getElementById('next-steps');
+            nextStepsContainer.innerHTML = config.nextSteps.map(step => `
+                <div class="flex items-center">
+                    <i class="${step.icon} mr-3 text-2xl text-green-300"></i>
+                    <span>${step.text}</span>
+                </div>
+            `).join('');
+
+            // Show score if available
+            if (currentScore > 0) {
+                displayScoreInfo();
+            }
+        }
+
+        function displayScoreInfo() {
+            const scoreDisplay = document.getElementById('score-display-section');
+            const scoreValue = document.getElementById('score-value');
+            const scoreText = document.getElementById('score-text');
+            const scoreCircle = document.getElementById('score-circle');
+            const tierBadge = document.getElementById('tier-badge');
+            const tierText = document.getElementById('tier-text');
+
+            scoreDisplay.classList.remove('hidden');
+            scoreValue.textContent = currentScore;
+            scoreText.textContent = currentScore;
+
+            // Update score circle
+            const percentage = (currentScore / 90) * 360;
+            scoreCircle.style.setProperty('--percentage', percentage + 'deg');
+
+            // Update tier badge
+            const tierConfig = {
+                elite: { class: 'tier-elite', text: '🏆 Elite Tier' },
+                growth: { class: 'tier-growth', text: '📈 Growth Tier' },
+                foundation: { class: 'tier-foundation', text: '🏗️ Foundation Tier' }
+            };
+
+            const config = tierConfig[currentTier];
+            tierBadge.className = `tier-badge ${config.class}`;
+            tierText.textContent = config.text;
+        }
+
+        function loadTierPackages() {
+            const container = document.getElementById('packages-container');
+            const packages = tierPackages[currentTier];
+
+            container.innerHTML = packages.map(pkg => `
+                <div class="package-card ${pkg.featured ? 'featured' : ''} bg-white rounded-lg shadow-lg p-6 text-center ${pkg.featured ? 'pt-12' : ''}">
+                    <div class="text-${pkg.color}-600 text-4xl mb-4">
+                        <i class="${pkg.icon}"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-2">${pkg.name}</h4>
+                    <div class="text-2xl font-bold text-gray-800 mb-1">
+                        <span class="line-through text-gray-400 text-lg">$${pkg.originalPrice.toLocaleString()}</span>
+                    </div>
+                    <div class="text-3xl font-bold text-green-600 mb-4">
+                        $${pkg.price.toLocaleString()}
+                    </div>
+                    <p class="text-gray-600 mb-6">${pkg.description}</p>
+                    
+                    <ul class="text-left space-y-2 mb-6 text-sm">
+                        ${pkg.features.map(feature => `
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>${feature}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                    
+                    <button onclick="selectPackage('${pkg.name}', ${pkg.price})" class="w-full bg-${pkg.color}-600 hover:bg-${pkg.color}-700 text-white font-bold py-3 px-6 rounded-lg transition-colors mb-2">
+                        Get Started Now
+                    </button>
+                    <p class="text-xs text-gray-500">${pkg.delivery}</p>
+                </div>
+            `).join('');
+        }
+
         // Countdown timer
         function startCountdown() {
             let timeLeft = 24 * 60 * 60; // 24 hours in seconds
@@ -760,10 +1001,9 @@
             trackConversion('ProceedToCheckout', selectedPackage, selectedPrice);
             
             // Here you would integrate with your payment processor
-            // For now, we'll show an alert
             alert(`Proceeding to checkout for ${selectedPackage} - $${selectedPrice.toLocaleString()}`);
             
-            // Redirect to payment page or open payment modal
+            // Redirect to payment page
             // window.location.href = '/checkout?package=' + encodeURIComponent(selectedPackage) + '&price=' + selectedPrice;
         }
         
@@ -773,7 +1013,7 @@
             
             closeModal();
             
-            // Scroll to top or show confirmation
+            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
             // Show confirmation message
@@ -795,40 +1035,38 @@
                 confirmationDiv.remove();
             }, 5000);
         }
-        
-        // Initialize countdown on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            startCountdown();
-        });
-        
-        // Track scroll depth for engagement
-        let maxScroll = 0;
-        window.addEventListener('scroll', function() {
-            const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-            if (scrollPercent > maxScroll) {
-                maxScroll = scrollPercent;
-                if (maxScroll >= 25 && maxScroll < 50) {
-                    trackConversion('ScrollDepth25');
-                } else if (maxScroll >= 50 && maxScroll < 75) {
-                    trackConversion('ScrollDepth50');
-                } else if (maxScroll >= 75) {
-                    trackConversion('ScrollDepth75');
+
+        function setupEventListeners() {
+            // Track scroll depth for engagement
+            let maxScroll = 0;
+            window.addEventListener('scroll', function() {
+                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                if (scrollPercent > maxScroll) {
+                    maxScroll = scrollPercent;
+                    if (maxScroll >= 25 && maxScroll < 50) {
+                        trackConversion('ScrollDepth25');
+                    } else if (maxScroll >= 50 && maxScroll < 75) {
+                        trackConversion('ScrollDepth50');
+                    } else if (maxScroll >= 75) {
+                        trackConversion('ScrollDepth75');
+                    }
                 }
-            }
-        });
-        
-        // Track time on page
-        let timeOnPage = 0;
-        setInterval(() => {
-            timeOnPage += 30;
-            if (timeOnPage === 60) {
-                trackConversion('TimeOnPage60s');
-            } else if (timeOnPage === 180) {
-                trackConversion('TimeOnPage3min');
-            } else if (timeOnPage === 300) {
-                trackConversion('TimeOnPage5min');
-            }
-        }, 30000);
+            });
+            
+            // Track time on page
+            let timeOnPage = 0;
+            setInterval(() => {
+                timeOnPage += 30;
+                if (timeOnPage === 60) {
+                    trackConversion('TimeOnPage60s');
+                } else if (timeOnPage === 180) {
+                    trackConversion('TimeOnPage3min');
+                } else if (timeOnPage === 300) {
+                    trackConversion('TimeOnPage5min');
+                }
+            }, 30000);
+        }
     </script>
 </body>
 </html>
+
